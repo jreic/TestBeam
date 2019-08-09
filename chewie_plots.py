@@ -8,7 +8,7 @@ filename = filepath.split("/")[-1]
 ps = plot_saver(plot_dir(filename.split(".")[0]), size=(600,600), log=False, pdf=True)
 
 # the ROOT file
-f = ROOT.TFile(filename)
+f = ROOT.TFile(filepath)
 
 # histogram paths within the ROOT file
 plot_paths = []
@@ -21,5 +21,3 @@ for plot_path in plot_paths :
     h.SetStats(0)
     h.Draw("colz")
     ps.save(plot_path.split("/")[-1])
-
-# FIXME save to git
