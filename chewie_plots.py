@@ -66,12 +66,18 @@ for plot_path in plot_paths :
                     num += val
                     den += 1
 
-        print("Integrated efficiency is "+str(num/den))
+        print("Integrated hCellEfficiency_Dut0 efficiency is "+str(num/den))
 
+    # FIXME these will be wrong for other run configurations
     if "Landau" in plot_name :
-        h.Fit("landau","","",2800,50000) # maybe 2800 is too large to start??
+        if "16477_16484" in filename :
+            h.Fit("landau","","",1800,25000)
+        elif "16446_16455" in filename :
+            h.Fit("landau","","",2300,25000)
+        else :
+            h.Fit("landau","","",2800,25000)
+
         h.GetXaxis().SetRangeUser(0,25000)
-        #h.GetXaxis().SetNdivisions(505)
 
     # Plot TH2's with colz and no stat box
     if issubclass(type(h), ROOT.TH2) :
@@ -81,3 +87,60 @@ for plot_path in plot_paths :
         h.Draw()
 
     ps.save(plot_name)
+
+
+    # now plot rebinned efficiency maps
+    if plot_name == "2DEfficiencyRef_Dut0" :
+        h_den_default_binning = f.Get(plot_path.replace("EfficiencyRef","EfficiencyRefNorm"))
+        h_num_default_binning = h.Clone("2DEfficiencyRefNum_Dut0")
+        h_num_default_binning.Multiply(h_num_default_binning,h_den_default_binning)
+
+        for rebinFactor in [2,4,8] :
+            h_num = h_num_default_binning.Clone("2DEfficiencyRefNumRebin%s_Dut0" % rebinFactor)
+            h_den = h_den_default_binning.Clone("EfficiencyRefNormRebin%s_Dut0" % rebinFactor)
+            h_num.Rebin2D(rebinFactor,rebinFactor)
+            h_den.Rebin2D(rebinFactor,rebinFactor)
+            h_eff = h_num.Clone("2DEfficiencyRefRebin%s_Dut0" % rebinFactor)
+            h_eff.SetTitle("2D efficiency distribution rebin%s Dut0" % rebinFactor)
+            h_eff.Divide(h_num,h_den)
+
+            h_eff.SetStats(0)
+            h_eff.Draw("colz")
+            ps.save("2DEfficiencyRefRebin%s_Dut0" % rebinFactor)
+
+            # formatting only for large rebinning
+            if rebinFactor >= 8 :
+
+                # format x-axis
+                x_start = 129
+                x_end = 264
+                h_eff.GetXaxis().SetRangeUser(x_start,x_end+1)
+                for xbin in xrange(x_start,x_end,rebinFactor) :
+                    ibinx = h_eff.GetXaxis().FindBin(xbin)
+                    h_eff.GetXaxis().SetBinLabel(ibinx, "%s-%s" % (xbin, xbin+rebinFactor-1) )
+
+                # format y-axis
+                y_start = 1
+                y_end = 192
+                h_eff.GetYaxis().SetRangeUser(y_start,y_end+1)
+                for ybin in xrange(y_start,y_end,rebinFactor) :
+                    ibiny = h_eff.GetYaxis().FindBin(ybin)
+                    h_eff.GetYaxis().SetBinLabel(ibiny, "%s-%s" % (ybin, ybin+rebinFactor-1) )
+
+                # remove tickmarks; otherwise we'd need to play around here a bit more to get them aligned right
+                h_eff.GetXaxis().SetTickLength(0)
+                h_eff.GetYaxis().SetTickLength(0)
+
+                # move "row" label
+                h_eff.GetYaxis().SetTitle("")
+                tlatex = ROOT.TLatex()
+                tlatex.SetTextSize(0.04)
+                tlatex.SetTextFont(42)
+                tlatex.DrawLatexNDC(0.025,0.9,"row")
+
+                h_eff.SetStats(0)
+                h_eff.Draw("colz")
+                ps.save("2DEfficiencyRefRebin%sReformatted_Dut0" % rebinFactor)
+
+
+print "FIXME for landau fits per run block"
