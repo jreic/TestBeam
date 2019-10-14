@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
-import math, sys, os, tempfile, ROOT
-from array import array
-from collections import namedtuple
-from general import chunks
+import sys, os, ROOT
 
 # keep ROOT from parsing out -h/--help
 _saved = []
