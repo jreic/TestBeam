@@ -131,6 +131,9 @@ for plot_path in plot_paths :
                 h_eff.GetXaxis().SetTickLength(0)
                 h_eff.GetYaxis().SetTickLength(0)
 
+                h_eff.SetStats(0)
+                h_eff.Draw("colz")
+
                 # move "row" label
                 h_eff.GetYaxis().SetTitle("")
                 tlatex = ROOT.TLatex()
@@ -138,8 +141,7 @@ for plot_path in plot_paths :
                 tlatex.SetTextFont(42)
                 tlatex.DrawLatexNDC(0.025,0.9,"row")
 
-                h_eff.SetStats(0)
-                h_eff.Draw("colz")
+                ps.update_canvas()
                 ps.save("2DEfficiencyRefRebin%sReformatted_Dut0" % rebinFactor)
 
 
