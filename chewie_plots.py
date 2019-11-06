@@ -17,6 +17,7 @@ plot_paths = []
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRef_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
+plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResiduals_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResiduals_Dut0")
 plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize_Dut0")
@@ -54,7 +55,7 @@ for plot_path in plot_paths :
     h = f.Get(plot_path)
     plot_name = plot_path.split("/")[-1]
 
-    if plot_name == "hCellEfficiency_Dut0" :
+    if plot_name == "hCellEfficiencyRef_Dut0" :
         num = 0
         den = 0
         for ibinx in xrange(0,h.GetNbinsX()+2) :
@@ -66,14 +67,17 @@ for plot_path in plot_paths :
                     num += val
                     den += 1
 
-        print("Integrated hCellEfficiency_Dut0 efficiency is "+str(num/den))
+        if den == 0 : den = 1
+        print("Integrated hCellEfficiencyRef_Dut0 efficiency is "+str(num/den))
 
     # FIXME these will be wrong for other run configurations
     if "Landau" in plot_name :
-        if "16477_16484" in filename :
+        if "16477_16484" in filename or "16477_16494" in filename :
             h.Fit("landau","","",1800,25000)
         elif "16446_16455" in filename :
             h.Fit("landau","","",2300,25000)
+        elif "15737_15748" in filename :
+            h.Fit("landau","","",3400,25000)
         else :
             h.Fit("landau","","",2800,25000)
 
