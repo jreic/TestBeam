@@ -24,6 +24,9 @@ plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hCellLandau_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSize1_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSize2_Dut0")
+plot_paths.append("Charge/Dut0/2DCharge/h2DCharge_Dut0")
+plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRef_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellCharge_Dut0")
 
 # Telescope residuals
 plot_paths.append("Resolution/Strip_Telescope_Upstream4/XResiduals/hXResiduals_Strip_Telescope_Upstream4")
@@ -83,11 +86,16 @@ for plot_path in plot_paths :
 
         h.GetXaxis().SetRangeUser(0,25000)
 
+    if "2D" in plot_name and "Charge" in plot_name :
+        h.SetMaximum(5000)
+
     # Plot TH2's with colz and no stat box
     if issubclass(type(h), ROOT.TH2) :
+        ps.c.SetRightMargin(0.15)
         h.SetStats(0)
         h.Draw("colz")
     else :
+        ps.c.SetRightMargin(0.1)
         h.Draw()
 
     ps.save(plot_name)
