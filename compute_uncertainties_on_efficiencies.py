@@ -23,8 +23,6 @@ fEff = ROOT.TFile(fpathEff)
 fDen = ROOT.TFile(fpathDen)
 
 cEff = fEff.Get("c0")
-print plot_names[0].replace("Reformatted","")
-print plot_names[1].replace("Reformatted","")
 hEff = cEff.GetPrimitive(plot_names[0].replace("Reformatted",""))
 
 cDen = fDen.Get("c0")
@@ -61,6 +59,11 @@ for ibinx in xrange(0,hEff.GetNbinsX()+2) :
         #print ibinx, ibiny, den, eff, unc
         hUncDown.SetBinContent(ibinx, ibiny, cp_eff-cp_unc_down)
         hUncUp.SetBinContent(ibinx, ibiny, cp_unc_up-cp_eff)
+
+hUncDown.SetMinimum(0)
+hUncDown.SetMaximum(1)
+hUncUp.SetMinimum(0)
+hUncUp.SetMaximum(1)
 
 ps.c.cd()
 hUncDown.Draw("colz")

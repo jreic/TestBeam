@@ -17,6 +17,10 @@ plot_paths = []
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRef_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNorm_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefRebinned_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNormRebinned_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefZoomedIn_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNormZoomedIn_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResiduals_Dut0")
@@ -27,6 +31,8 @@ plot_paths.append("Charge/Dut0/Landau/hLandauClusterSize1_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSize2_Dut0")
 plot_paths.append("Charge/Dut0/2DCharge/h2DCharge_Dut0")
 plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRef_Dut0")
+plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefRebinned_Dut0")
+plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellCharge_Dut0")
 
 # Telescope residuals
@@ -88,20 +94,24 @@ for plot_path in plot_paths :
         h.GetXaxis().SetRangeUser(0,25000)
 
     if "2D" in plot_name and "Charge" in plot_name :
-        h.SetMaximum(5000)
+        h.SetMaximum(10000)
 
     # Plot TH2's with colz and no stat box
     if issubclass(type(h), ROOT.TH2) :
-        ps.c.SetRightMargin(0.15)
+        ps.c.SetMargin(0.12,0.14,0.12,0.10)
+        if not "Zoomed" in plot_name :
+            h.GetYaxis().SetTitleOffset(1.5)
         h.SetStats(0)
         h.Draw("colz")
     else :
-        ps.c.SetRightMargin(0.1)
+        ps.c.SetMargin(0.1,0.1,0.1,0.1)
         h.Draw()
 
     ps.save(plot_name)
 
 
+# Don't need the below anymore...
+'''
     # now plot rebinned efficiency maps
     if plot_name == "2DEfficiencyRef_Dut0" :
         h_den_default_binning = f.Get(plot_path.replace("EfficiencyRef","EfficiencyRefNorm"))
@@ -205,6 +215,7 @@ for plot_path in plot_paths :
 
                 ps.update_canvas()
                 ps.save("2DEfficiencyRefNormRebin%sReformatted_Dut0" % rebinFactor)
+'''
 
 
 print "FIXME for landau fits per run block"
