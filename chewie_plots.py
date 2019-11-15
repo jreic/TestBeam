@@ -25,6 +25,10 @@ plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResiduals_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResiduals_Dut0")
+plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsClusterSize1_Dut0")
+plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsClusterSize1_Dut0")
+plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsClusterSize2_Dut0")
+plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsClusterSize2_Dut0")
 plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hCellLandau_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSize1_Dut0")
@@ -93,8 +97,13 @@ for plot_path in plot_paths :
 
         h.GetXaxis().SetRangeUser(0,25000)
 
-    if "2D" in plot_name and "Charge" in plot_name :
-        h.SetMaximum(10000)
+    if "2DCharge" in plot_name :
+        h.SetMaximum(5000)
+    elif "2DCellCharge" in plot_name :
+        h.SetMaximum(5000)
+    elif "CellEfficiency" in plot_name :
+        h.SetMinimum(0)
+        h.SetMaximum(1)
 
     # Plot TH2's with colz and no stat box
     if issubclass(type(h), ROOT.TH2) :

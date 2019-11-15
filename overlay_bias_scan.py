@@ -12,6 +12,10 @@ plot_names = [
                "hClusterSize_Dut0"
               ,"hXResiduals_Dut0"
               ,"hYResiduals_Dut0"
+              ,"hXResidualsClusterSize1_Dut0"
+              ,"hYResidualsClusterSize1_Dut0"
+              ,"hXResidualsClusterSize2_Dut0"
+              ,"hYResidualsClusterSize2_Dut0"
              ]
 
 for plot_name in plot_names :
@@ -63,6 +67,9 @@ for plot_name in plot_names :
     if plot_name == "hClusterSize_Dut0" :
         histmin = 5e-6
         histmax = 1
+    elif "ResidualsClusterSize2" in plot_name :
+        histmin = 1e-5
+        histmax = 0.05
     elif "Residuals" in plot_name :
         histmin = 5e-6
         histmax = 0.03
