@@ -47,6 +47,7 @@ for plot_path in plot_paths :
 
     eff_arr.append(eff)
 
+# assumes the order to be put on the Twiki is the same as the plot_paths appends were made
 table_str = "|"
 for eff in eff_arr :
     table_str += " " + eff + " |"
