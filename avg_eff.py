@@ -16,8 +16,12 @@ f = ROOT.TFile(filepath)
 plot_paths = []
 plot_paths.append("Efficiency/Dut0/Efficiency/Efficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0")
-plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
-plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
+
+# Corrinne convinced me that these aren't actually necessary, 
+# and it was more difficult to interpret an efficiency whenever
+# empty bins were present!
+#plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
+#plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
 
 eff_arr = []
 
@@ -25,21 +29,25 @@ for plot_path in plot_paths :
     h = f.Get(plot_path)
     plot_name = plot_path.split("/")[-1]
 
-    if plot_name == "hCellEfficiencyRef_Dut0" or plot_name == "hCellEfficiency_Dut0" :
-        num = 0
-        den = 0
-        for ibinx in xrange(0,h.GetNbinsX()+2) :
-            for ibiny in xrange(0, h.GetNbinsY()+2) :
-                val = h.GetBinContent(ibinx,ibiny)
-                err = h.GetBinError(ibinx, ibiny)
+    #if plot_name == "hCellEfficiencyRef_Dut0" or plot_name == "hCellEfficiency_Dut0" :
+    #    num = 0
+    #    den = 0
+    #    for ibinx in xrange(0,h.GetNbinsX()+2) :
+    #        for ibiny in xrange(0, h.GetNbinsY()+2) :
 
-                if val != 0 :
-                    num += val
-                    den += 1
+    #            xbinlowedge = h.GetXaxis().GetBinLowEdge(ibinx)
+    #            ybinlowedge = h.GetYaxis().GetBinLowEdge(ibiny)
 
-        if den == 0 : den = 1
-        eff = "%.2f" % (num/den)
-        print("Integrated " + plot_name + " efficiency is " + eff)
+    #            # FIXME note this is only valid for 50x50 sensors
+    #            if xbinlowedge < -25 or xbinlowedge >= 25 or ybinlowedge < -25 or ybinlowedge >= 25 :
+    #                continue
+
+    #            num += h.GetBinContent(ibinx,ibiny)
+    #            den += 1
+
+    #    if den == 0 : den = 1
+    #    eff = "%.2f" % (num/den)
+    #    print("Integrated " + plot_name + " efficiency is " + eff)
 
     if plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
         eff = "%.2f" % h.GetBinContent(1)
