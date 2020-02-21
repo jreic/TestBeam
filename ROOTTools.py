@@ -23,6 +23,8 @@ def plot_dir(x='', make=False, temp=False):
     d = None
     if 'fnal.gov' in hostname :
         d = '/publicweb/%s/%s/TFPX' % (username[0],username)
+    elif 'classe.cornell.edu' in hostname :
+        d = '~/public_html/TFPX'
     if d:
         x = os.path.join(d,x)
     else:
