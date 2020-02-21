@@ -4,15 +4,15 @@ import math
 
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
 
-chewie_output_dir = "Chewie_Runs15067_15078"
+chewie_output_dir = "Chewie_Runs16756_16778"
 
 ps = plot_saver(plot_dir("eff_uncertainties_"+chewie_output_dir), size=(600,600), pdf=True, log=False)
 ps.c.SetRightMargin(0.15)
 ps.update_canvas()
 
 plot_names = [ 
-               "2DEfficiencyRefRebin8Reformatted_Dut0"
-              ,"2DEfficiencyRefNormRebin8Reformatted_Dut0"
+               "2DEfficiencyRefZoomedIn_Dut0"
+              ,"2DEfficiencyRefNormZoomedIn_Dut0"
              ]
 
 
@@ -23,10 +23,10 @@ fEff = ROOT.TFile(fpathEff)
 fDen = ROOT.TFile(fpathDen)
 
 cEff = fEff.Get("c0")
-hEff = cEff.GetPrimitive(plot_names[0].replace("Reformatted",""))
+hEff = cEff.GetPrimitive(plot_names[0])
 
 cDen = fDen.Get("c0")
-hDen = cDen.GetPrimitive(plot_names[1].replace("Reformatted","").replace("2D",""))
+hDen = cDen.GetPrimitive(plot_names[1])
 
 hUncDown = hDen.Clone("hUncDown")
 hUncDown.SetTitle("2D efficiency Clopper-Pearson uncertainty (down)")

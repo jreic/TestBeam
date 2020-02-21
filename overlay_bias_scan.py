@@ -4,7 +4,7 @@ import sys
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
 
 
-ps = plot_saver(plot_dir("overlay_bias_scan"), size=(600,600), log=True, pdf=True, pdf_log=True)
+ps = plot_saver(plot_dir("overlay_bias_scan_voltage_at_sensor"), size=(600,600), log=True, pdf=True, pdf_log=True)
 ps.c.SetLeftMargin(0.15)
 ps.update_canvas()
 
@@ -20,7 +20,7 @@ plot_names = [
 
 for plot_name in plot_names :
 
-    fpath800V = "/uscms/home/joeyr/publicweb/TFPX/Chewie_Runs15737_15748_contiguous/"+plot_name+".root"
+    fpath800V = "/uscms/home/joeyr/publicweb/TFPX/Chewie_Runs15737_15748_12trackhits/"+plot_name+".root"
     fpath700V = "/uscms/home/joeyr/publicweb/TFPX/Chewie_Runs16466_16476/"+plot_name+".root"
     fpath600V = "/uscms/home/joeyr/publicweb/TFPX/Chewie_Runs16434_16445/"+plot_name+".root"
     fpath500V = "/uscms/home/joeyr/publicweb/TFPX/Chewie_Runs16446_16455/"+plot_name+".root"
@@ -33,11 +33,12 @@ for plot_name in plot_names :
              ,ROOT.TFile(fpath400V)
             ]
 
-    labels = ["800V","700V","600V","500V","400V"]
+    labels = ["723V","637V","550V","460V","370V"]
     colors = [ROOT.kBlack, ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kOrange]
     hists = []
 
-    leg = ROOT.TLegend(0.60, 0.75, 0.90, 0.90)
+    #leg = ROOT.TLegend(0.60, 0.75, 0.90, 0.90)
+    leg = ROOT.TLegend(0.50, 0.60, 0.90, 0.90)
     leg.SetMargin(0.15)
 
     for index in xrange(0,len(files)) :
@@ -47,7 +48,7 @@ for plot_name in plot_names :
         h.SetName(labels[index])
         h.SetLineColor(colors[index])
         h.SetMarkerColor(colors[index])
-        h.SetLineWidth(2)
+        h.SetLineWidth(3)
         h.Scale(1/h.Integral())
 
         ps.c.cd()
@@ -59,6 +60,7 @@ for plot_name in plot_names :
         else :
             h.Draw("same")
 
+        #leg.AddEntry(h,h.GetName()+", mean = %.2f #pm %.2f, #sigma = %.2f #pm %.2f" % (h.GetMean(), h.GetMeanError(), h.GetStdDev(), h.GetStdDevError()),"l")
         leg.AddEntry(h,h.GetName()+", mean = %.2f, #sigma = %.2f" % (h.GetMean(), h.GetStdDev()),"l")
         h.SetStats(0)
         hists.append(h)
@@ -69,10 +71,10 @@ for plot_name in plot_names :
         histmax = 1
     elif "ResidualsClusterSize2" in plot_name :
         histmin = 1e-5
-        histmax = 0.05
+        histmax = 0.06
     elif "Residuals" in plot_name :
         histmin = 5e-6
-        histmax = 0.03
+        histmax = 0.04
 
     hists[0].GetYaxis().SetRangeUser(histmin, histmax)
     leg.Draw()

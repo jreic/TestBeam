@@ -23,6 +23,8 @@ plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefZoomedIn_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNormZoomedIn_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
+plot_paths.append("Efficiency/Dut0/CellEfficiency/h2D4cellEfficiency_Dut0")
+plot_paths.append("Efficiency/Dut0/CellEfficiency/h2D4cellEfficiencyRef_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResiduals_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResiduals_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsClusterSize1_Dut0")
@@ -41,6 +43,14 @@ plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellCharge_Dut0")
 
 # Telescope residuals
+plot_paths.append("Resolution/Strip_Telescope_Upstream0/XResiduals/hXResiduals_Strip_Telescope_Upstream0")
+plot_paths.append("Resolution/Strip_Telescope_Upstream0/YResiduals/hYResiduals_Strip_Telescope_Upstream0")
+plot_paths.append("Resolution/Strip_Telescope_Upstream1/XResiduals/hXResiduals_Strip_Telescope_Upstream1")
+plot_paths.append("Resolution/Strip_Telescope_Upstream1/YResiduals/hYResiduals_Strip_Telescope_Upstream1")
+plot_paths.append("Resolution/Strip_Telescope_Upstream2/XResiduals/hXResiduals_Strip_Telescope_Upstream2")
+plot_paths.append("Resolution/Strip_Telescope_Upstream2/YResiduals/hYResiduals_Strip_Telescope_Upstream2")
+plot_paths.append("Resolution/Strip_Telescope_Upstream3/XResiduals/hXResiduals_Strip_Telescope_Upstream3")
+plot_paths.append("Resolution/Strip_Telescope_Upstream3/YResiduals/hYResiduals_Strip_Telescope_Upstream3")
 plot_paths.append("Resolution/Strip_Telescope_Upstream4/XResiduals/hXResiduals_Strip_Telescope_Upstream4")
 plot_paths.append("Resolution/Strip_Telescope_Upstream4/YResiduals/hYResiduals_Strip_Telescope_Upstream4")
 plot_paths.append("Resolution/Strip_Telescope_Upstream5/XResiduals/hXResiduals_Strip_Telescope_Upstream5")
@@ -65,9 +75,20 @@ plot_paths.append("Resolution/Strip_Telescope_Downstream2/XResiduals/hXResiduals
 plot_paths.append("Resolution/Strip_Telescope_Downstream2/YResiduals/hYResiduals_Strip_Telescope_Downstream2")
 plot_paths.append("Resolution/Strip_Telescope_Downstream3/XResiduals/hXResiduals_Strip_Telescope_Downstream3")
 plot_paths.append("Resolution/Strip_Telescope_Downstream3/YResiduals/hYResiduals_Strip_Telescope_Downstream3")
+plot_paths.append("Resolution/Strip_Telescope_Downstream4/XResiduals/hXResiduals_Strip_Telescope_Downstream4")
+plot_paths.append("Resolution/Strip_Telescope_Downstream4/YResiduals/hYResiduals_Strip_Telescope_Downstream4")
+plot_paths.append("Resolution/Strip_Telescope_Downstream5/XResiduals/hXResiduals_Strip_Telescope_Downstream5")
+plot_paths.append("Resolution/Strip_Telescope_Downstream5/YResiduals/hYResiduals_Strip_Telescope_Downstream5")
+plot_paths.append("Resolution/Strip_Telescope_Downstream6/XResiduals/hXResiduals_Strip_Telescope_Downstream6")
+plot_paths.append("Resolution/Strip_Telescope_Downstream6/YResiduals/hYResiduals_Strip_Telescope_Downstream6")
+plot_paths.append("Resolution/Strip_Telescope_Downstream7/XResiduals/hXResiduals_Strip_Telescope_Downstream7")
+plot_paths.append("Resolution/Strip_Telescope_Downstream7/YResiduals/hYResiduals_Strip_Telescope_Downstream7")
 
 for plot_path in plot_paths :
     h = f.Get(plot_path)
+    if not h : 
+        print("%s not found, skipping" % plot_path)
+        continue
     plot_name = plot_path.split("/")[-1]
 
     # FIXME these will be wrong for other run configurations
@@ -89,7 +110,7 @@ for plot_path in plot_paths :
         h.SetMaximum(5000)
     elif "2DCellCharge" in plot_name :
         h.SetMaximum(5000)
-    elif "CellEfficiency" in plot_name :
+    elif "CellEfficiency" in plot_name or ("2DEfficiency" in plot_name and not "Norm" in plot_name) :
         h.SetMinimum(0)
         h.SetMaximum(1)
 
@@ -105,6 +126,15 @@ for plot_path in plot_paths :
         h.Draw()
 
     ps.save(plot_name)
+
+    if "CellEfficiency" in plot_name or "cellEfficiency" in plot_name :
+        ps.c.Clear()
+        hclone = h.Clone(plot_name+"_smallerRange")
+        hclone.SetMinimum(0.8)
+        hclone.SetMaximum(1.0)
+        hclone.Draw("colz")
+        ps.save(plot_name+"_smallerRange")
+
 
 if printFIXME : 
     print "FIXME for landau fits per run block"

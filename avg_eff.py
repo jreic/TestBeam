@@ -17,6 +17,9 @@ plot_paths = []
 plot_paths.append("Efficiency/Dut0/Efficiency/Efficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0")
 
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyNorm_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRefNorm_Dut0")
+
 # Corrinne convinced me that these aren't actually necessary, 
 # and it was more difficult to interpret an efficiency whenever
 # empty bins were present!
@@ -52,6 +55,9 @@ for plot_path in plot_paths :
     if plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
         eff = "%.2f" % h.GetBinContent(1)
         print(plot_name + " efficiency is " + eff)
+    if plot_name == "EfficiencyNorm_Dut0" or plot_name == "EfficiencyRefNorm_Dut0" :
+        eff = "%.2f" % h.GetBinContent(1)
+        print(plot_name + " nTracks is " + eff)
 
     eff_arr.append(eff)
 
