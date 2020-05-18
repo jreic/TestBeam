@@ -2,6 +2,7 @@ from ROOTTools import *
 import sys
 
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
+ROOT.gROOT.ProcessLine(".L langaus_from_chewie.C+")
 
 filepath = sys.argv[1]
 filename = filepath.split("/")[-1]
@@ -91,21 +92,6 @@ for plot_path in plot_paths :
         continue
     plot_name = plot_path.split("/")[-1]
 
-    # FIXME these will be wrong for other run configurations
-    printFIXME = False
-    if "Landau" in plot_name :
-        if "16477_16484" in filename or "16477_16494" in filename :
-            h.Fit("landau","","",1800,25000)
-        elif "16446_16455" in filename :
-            h.Fit("landau","","",2300,25000)
-        elif "15737_15748" in filename :
-            h.Fit("landau","","",3400,25000)
-        else :
-            h.Fit("landau","","",2800,25000)
-            printFIXME = True
-
-        h.GetXaxis().SetRangeUser(0,25000)
-
     if "2DCharge" in plot_name :
         h.SetMaximum(5000)
     elif "2DCellCharge" in plot_name :
@@ -123,7 +109,15 @@ for plot_path in plot_paths :
         h.Draw("colz")
     else :
         ps.c.SetMargin(0.1,0.1,0.1,0.1)
-        h.Draw()
+
+        # draw charge distributions with their Landau x Gaussian fits
+        if "Landau" in plot_name :
+            fit = ROOT.langausFit(h)
+            h.GetXaxis().SetRangeUser(0, 25000)
+            h.Draw()
+            fit.Draw("same")
+        else :
+            h.Draw()
 
     ps.save(plot_name)
 
@@ -134,7 +128,3 @@ for plot_path in plot_paths :
         hclone.SetMaximum(1.0)
         hclone.Draw("colz")
         ps.save(plot_name+"_smallerRange")
-
-
-if printFIXME : 
-    print "FIXME for landau fits per run block"
