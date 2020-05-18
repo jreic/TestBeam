@@ -3,6 +3,7 @@ import sys
 
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
 ROOT.gROOT.ProcessLine(".L langaus_from_chewie.C+")
+ROOT.gErrorIgnoreLevel = ROOT.kWarning
 
 filepath = sys.argv[1]
 filename = filepath.split("/")[-1]
