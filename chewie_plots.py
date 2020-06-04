@@ -126,7 +126,8 @@ for plot_path in plot_paths :
         ps.c.SetMargin(0.1,0.1,0.1,0.1)
 
         # draw charge distributions with their Landau x Gaussian fits
-        if "Landau" in plot_name :
+        if "Landau" in plot_name and h.GetEntries() > 0 :
+            print("\nFit results for %s:" % plot_name)
             fit = ROOT.langausFit(h)
             h.GetXaxis().SetRangeUser(0, 25000)
             h.Draw()
