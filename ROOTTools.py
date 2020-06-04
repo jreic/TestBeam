@@ -93,7 +93,7 @@ class plot_saver:
                 return 'index_%i.html' % page
             return 
         html = open(os.path.join(self.plot_dir, html_fn(page)), 'wt')
-        html.write('<html><body><pre>\n')
+        html.write('<html><head><title>%s</title></head><body><pre>\n' % self.plot_dir.split('/')[-1])
         def write_pages_line():
             html.write('pages: ')
             for i in xrange(num_pages):
