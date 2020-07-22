@@ -16,6 +16,8 @@ f = ROOT.TFile(filepath)
 
 # histogram paths within the ROOT file
 plot_paths = []
+plot_paths.append("Efficiency/Dut0/Efficiency/Efficiency_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRef_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNorm_Dut0")
@@ -106,6 +108,11 @@ for plot_path in plot_paths :
         print("%s not found, skipping" % plot_path)
         continue
     plot_name = plot_path.split("/")[-1]
+
+    # only want to print out these efficiencies, at least for now
+    if plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
+        print plot_name, h.GetBinContent(1)
+        continue
 
     if "2DCharge" in plot_name :
         h.SetMaximum(5000)
