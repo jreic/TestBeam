@@ -135,7 +135,7 @@ for plot_path in plot_paths :
             h.Draw()
             fit.Draw("same")
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
-            h.Draw("text")
+            h.Draw("text0")
         else :
             h.Draw()
 
