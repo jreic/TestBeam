@@ -109,11 +109,6 @@ for plot_path in plot_paths :
         continue
     plot_name = plot_path.split("/")[-1]
 
-    # only want to print out these efficiencies, at least for now
-    if plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
-        print plot_name, h.GetBinContent(1)
-        continue
-
     if "2DCharge" in plot_name :
         h.SetMaximum(5000)
     elif "2DCellCharge" in plot_name :
@@ -139,6 +134,8 @@ for plot_path in plot_paths :
             h.GetXaxis().SetRangeUser(0, 25000)
             h.Draw()
             fit.Draw("same")
+        elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
+            h.Draw("text")
         else :
             h.Draw()
 
