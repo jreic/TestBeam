@@ -47,7 +47,7 @@ for plot_name in plot_names :
     plot_title = plot_title.replace("Dut0","")
     plot_title += " summary"
 
-    if filter_str and filter_str != "nominal" :
+    if filter_str and filter_str != "nominal" and filter_str != "lkc" :
         plot_title += " ("
         if   "K" in filter_str : 
             plot_title += "LKC20"
@@ -68,18 +68,19 @@ for plot_name in plot_names :
     ordering = []
     if filter_str == "nominal" :
         ordering = ["136","131","139","135","134","125","128","133","144","127","130","114","116"]
-    elif "K" in filter_str or "L" in filter_str or "M" in filter_str :
+    elif filter_str == "lkc" or "K" in filter_str or "L" in filter_str or "M" in filter_str :
         ordering = ["134"]
     sorted_keys = []
     for sensor in ordering :
         for key in orig_keys :
-
             if key == "134_EM1" : continue # skip this crummy one for now since the efficiency plots are empty
 
             if sensor in key :
                 if filter_str == "nominal" :
                     if "H" in key or "I" in key or "J" in key or "K" in key or "L" in key :
                         continue
+                elif filter_str == "lkc" :
+                    pass
                 elif not filter_str in key :
                     continue
                 sorted_keys.append(key)
@@ -92,6 +93,10 @@ for plot_name in plot_names :
         all_variations = ["A","B","C","D","E","F","G"]
         varlabels = ["0#circ","5#circ","10#circ","15#circ","20#circ","24#circ","29#circ"]
         color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1]
+    if filter_str == "lkc" :
+        all_variations = ["AK","BK","CK","DK","EK","AL","BL","CL","DL","EL","AM","BM","CM","DM","EM"]
+        varlabels = ["0#circ","5#circ","10#circ","15#circ","20#circ"]*3
+        color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3]*3
     if filter_str == "K" or filter_str == "L" or filter_str == "M" :
         all_variations = ["A","B","C","D","E"]
         varlabels = ["0#circ","5#circ","10#circ","15#circ","20#circ"]
@@ -130,6 +135,17 @@ for plot_name in plot_names :
         elif "G" in key and filter_str != "G" : 
             label += "29#circ"
             variation = "G"
+
+        if filter_str == "lkc" :
+            if   "K" in key :
+                label += " LKC20"
+                variation += "K"
+            elif "L" in key :
+                label += " LKC27"
+                variation += "L"
+            elif "M" in key :
+                label += " LKC40"
+                variation += "M"
 
         # for multiple blocks w/ same conditions
         if   key.endswith("1") : 
@@ -198,10 +214,25 @@ for plot_name in plot_names :
                         tmp_bin = len(all_variations)*ibin_primary + ibin_secondary 
                         tmp_bin += 1 # for the root bin ordering
 
-                        if ibin_secondary == len(all_variations)/2 :
+                        # set label at midpoint for each sensor
+                        set_label = ibin_secondary == len(all_variations)/2
+
+                        # special case: in lkc scan for only MJ134, set labels at midpoint of each lkc setting
+                        # FIXME this is hardcoded, so not ideal
+                        if filter_str == "lkc" :
+                            set_label = ibin_secondary % 5 == 2
+
+                        if set_label :
                             if show_sensor_info :
                                 tmp_sensor = ordering[ibin_primary]
                                 pitch, sensor_type = get_sensor_info(tmp_sensor)
+                                if filter_str == "lkc" :
+                                    if   "K" in all_variations[ibin_secondary] :
+                                        tmp_sensor += " LKC20"
+                                    elif "L" in all_variations[ibin_secondary] :
+                                        tmp_sensor += " LKC27"
+                                    elif "M" in all_variations[ibin_secondary] :
+                                        tmp_sensor += " LKC40"
                                 output_bin_label = "#splitline{"+tmp_sensor+"}{#splitline{"+pitch+"}{"+sensor_type+"}}"
                             else : 
                                 output_bin_label = tmp_sensor 
@@ -266,10 +297,16 @@ for plot_name in plot_names :
     else :
         leg = ps.c.BuildLegend(0.77,0.92,0.98,0.99)
         leg.SetNColumns(4)
+
     leg_primitives = leg.GetListOfPrimitives()
+    iprim = 0
+
     for prim in leg_primitives :
         if "duplicate" in prim.GetLabel() :
             leg_primitives.Remove(prim)
+        elif filter_str == "lkc" and iprim >= 5 : # only need legend to show each angle once. this isn't an ideal way to do it, but oh well 
+            leg_primitives.Remove(prim)
+        iprim += 1
 
     ps.update_canvas()
     
@@ -288,7 +325,15 @@ for plot_name in plot_names :
             tmp_bin = len(all_variations)*ibin_primary + ibin_secondary 
             tmp_bin += 1 # for the root bin ordering
 
-            if ibin_secondary == 0 and ibin_primary != 0:
+            if filter_str == "lkc" and ibin_secondary % 5 == 0:
+                line_position = out_hist.GetXaxis().GetBinLowEdge(tmp_bin)
+                line = ROOT.TLine(line_position, ps.c.GetUymin(), line_position, ps.c.GetUymax())
+                line.SetLineStyle(2)
+                line.SetLineWidth(1)
+                line.Draw()
+                lines.append(line)
+
+            elif ibin_secondary == 0 and ibin_primary != 0:
                 tmp_sensor = ordering[ibin_primary]
                 tmp_sensor_prev = ordering[ibin_primary-1]
 
