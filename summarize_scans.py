@@ -27,6 +27,7 @@ plot_names = [
               ,"hLandauClusterSize1_Dut0"
               ,"hLandauClusterSize2_Dut0"
               ,"hLandauClusterSize3_Dut0"
+              ,"hLandauClusterSizeUpToMax_Dut0"
               ,"Efficiency_Dut0"
               ,"EfficiencyRef_Dut0"
              ]
@@ -39,6 +40,7 @@ for plot_name in plot_names :
     plot_title = plot_title.replace("ResidualsClusterSize"," residuals cluster size ")
     plot_title = plot_title.replace("Residuals"," residuals")
     plot_title = plot_title.replace("LandauClusterSize","Charge distribution for clusters of size ")
+    plot_title = plot_title.replace("UpToMax","up to 9")
     plot_title = plot_title.replace("ClusterSize","Cluster size distribution")
     plot_title = plot_title.replace("Efficiency","Overall efficiency")
     plot_title = plot_title.replace("Ref"," ref.")

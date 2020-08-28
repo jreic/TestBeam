@@ -214,10 +214,10 @@ for plot_name in plot_names :
                 out_hist.GetYaxis().SetRangeUser(0,4)
             elif "XResiduals" in plot_name :
                 y_axis_title = "average X residual #pm RMS (#mum)"
-                out_hist.GetYaxis().SetRangeUser(-30,30)
+                out_hist.GetYaxis().SetRangeUser(-35,35)
             elif "YResiduals" in plot_name :
                 y_axis_title = "average Y residual #pm RMS (#mu m)"
-                out_hist.GetYaxis().SetRangeUser(-30,30)
+                out_hist.GetYaxis().SetRangeUser(-35,35)
             elif "Landau" in plot_name :
                 y_axis_title = "average charge #pm RMS (electrons)"
                 out_hist.GetYaxis().SetRangeUser(0,25000)
@@ -261,10 +261,10 @@ for plot_name in plot_names :
     ps.c.SetGridy()
     leg = None
     if filter_str == "K" or filter_str == "L" or filter_str == "M" :
-        leg = ps.c.BuildLegend(0.80,0.92,0.98,0.99)
+        leg = ps.c.BuildLegend(0.82,0.92,0.98,0.99)
         leg.SetNColumns(3)
     else :
-        leg = ps.c.BuildLegend(0.75,0.92,0.98,0.99)
+        leg = ps.c.BuildLegend(0.77,0.92,0.98,0.99)
         leg.SetNColumns(4)
     leg_primitives = leg.GetListOfPrimitives()
     for prim in leg_primitives :

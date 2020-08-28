@@ -43,6 +43,7 @@ plot_names = [
               ,"hLandauClusterSize1_Dut0"
               ,"hLandauClusterSize2_Dut0"
               ,"hLandauClusterSize3_Dut0"
+              ,"hLandauClusterSizeUpToMax_Dut0"
               ,"Efficiency_Dut0"
               ,"EfficiencyRef_Dut0"
              ]
