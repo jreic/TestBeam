@@ -146,7 +146,8 @@ for plot_path in plot_paths :
             fit.Draw("same")
         elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
             print("\nFit results for %s:" % plot_name)
-            h.Fit("gaus","","",h.GetMean()-1.5*h.GetStdDev(),h.GetMean()+1.5*h.GetStdDev())
+            fitwidth = 1.25 # 1.25 sigma is ~80% of events, so we can ignore just the tails
+            h.Fit("gaus","","",h.GetMean()-fitwidth*h.GetStdDev(),h.GetMean()+fitwidth*h.GetStdDev())
             h.Draw()
         elif "ChargeAsymmetryInv" in plot_name and h.GetEntries() > 0 :
             h.Fit("pol1")
