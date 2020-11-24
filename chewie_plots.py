@@ -9,7 +9,8 @@ filepath = sys.argv[1]
 filename = filepath.split("/")[-1]
 
 # to save our plots
-ps = plot_saver(plot_dir(filename.split(".")[0]), size=(600,600), log=False, pdf=True)
+#ps = plot_saver(plot_dir("Spring2020/"+filename.split(".")[0]), size=(600,600), log=False, pdf=False)
+ps = plot_saver(plot_dir(filename.split(".")[0]), size=(600,600), log=False, pdf=False)
 
 # the ROOT file
 f = ROOT.TFile(filepath)
@@ -39,6 +40,10 @@ plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsClusterSize1_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsClusterSize1_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsClusterSize2_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsClusterSize2_Dut0")
+plot_paths.append("Resolution/Dut0/XResiduals/hXResidualCalculatedSize2_Dut0")
+plot_paths.append("Resolution/Dut0/YResiduals/hYResidualCalculatedSize2_Dut0")
+plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsDigital_Dut0")
+plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsDigital_Dut0")
 plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hCellLandau_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpTo4_Dut0")
@@ -59,6 +64,9 @@ plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn_Dut0")
 plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn50x50_Dut0")
 plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn25x100_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellCharge_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DClusterSize_Dut0")
+plot_paths.append("Charge/Dut0/XAsymmetry/h1DXcellChargeAsymmetryInv_Dut0")
+plot_paths.append("Charge/Dut0/YAsymmetry/h1DYcellChargeAsymmetryInv_Dut0")
 
 # Telescope residuals
 plot_paths.append("Resolution/Strip_Telescope_Upstream0/XResiduals/hXResiduals_Strip_Telescope_Upstream0")
@@ -109,10 +117,12 @@ for plot_path in plot_paths :
         continue
     plot_name = plot_path.split("/")[-1]
 
-    if "2DCharge" in plot_name :
-        h.SetMaximum(5000)
-    elif "2DCellCharge" in plot_name :
-        h.SetMaximum(5000)
+    if "2DCharge" in plot_name or "2DCellCharge" in plot_name :
+        #h.SetMaximum(5000) # I think this was for MJ13, where 5k electrons really was a sensible maximum...
+        pass
+    elif "h2DClusterSize_Dut0" in plot_name :
+        h.SetMinimum(1)
+        h.SetMaximum(2)
     elif "CellEfficiency" in plot_name or ("2DEfficiency" in plot_name and not "Norm" in plot_name) :
         h.SetMinimum(0)
         h.SetMaximum(1)
@@ -134,6 +144,14 @@ for plot_path in plot_paths :
             h.GetXaxis().SetRangeUser(0, 25000)
             h.Draw()
             fit.Draw("same")
+        elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
+            print("\nFit results for %s:" % plot_name)
+            h.Fit("gaus","","",h.GetMean()-1.5*h.GetStdDev(),h.GetMean()+1.5*h.GetStdDev())
+            h.Draw()
+        elif "ChargeAsymmetryInv" in plot_name and h.GetEntries() > 0 :
+            h.Fit("pol1")
+            ROOT.gStyle.SetStatH(0.1)
+            h.Draw()
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
             h.Draw("text0")
         else :
