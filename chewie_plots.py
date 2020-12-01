@@ -2,7 +2,7 @@ from ROOTTools import *
 import sys
 
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
-ROOT.gROOT.ProcessLine(".L langaus_from_chewie.C+")
+ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 ROOT.gErrorIgnoreLevel = ROOT.kWarning
 
 filepath = sys.argv[1]
@@ -146,11 +146,11 @@ for plot_path in plot_paths :
             fit.Draw("same")
         elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
             print("\nFit results for %s:" % plot_name)
-            fitwidth = 1.25 # 1.25 sigma is ~80% of events, so we can ignore just the tails
-            h.Fit("gaus","","",h.GetMean()-fitwidth*h.GetStdDev(),h.GetMean()+fitwidth*h.GetStdDev())
+            fit = ROOT.fitGausPol0(h)
             h.Draw()
+            fit.Draw("same")
         elif "ChargeAsymmetryInv" in plot_name and h.GetEntries() > 0 :
-            h.Fit("pol1")
+            h.Fit("pol1", "", "", -0.5, 0.5)
             ROOT.gStyle.SetStatH(0.1)
             h.Draw()
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :

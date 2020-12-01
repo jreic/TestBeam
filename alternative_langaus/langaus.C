@@ -76,7 +76,7 @@ Double_t langaufun(Double_t *x, Double_t *par) {
 
 
 
-// This is a much simpler version of what is in langaus_from_chewie.C,
+// This is a much simpler version of what is in fit_helpers.C,
 // but seemed to result in poor fits on occasion (e.g. not always smooth curves)
 TF1 *langausFit(TH1F *hist, double xlow, double xhigh)
 {
