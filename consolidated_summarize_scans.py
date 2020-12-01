@@ -15,6 +15,7 @@ if len(sys.argv) > 1 :
 plot_dir_name += "_"+filter_str
 
 show_sensor_info = True if filter_str else False
+fit_size_2 = True
 
 ps = plot_saver(plot_dir(plot_dir_name), size=(1200,600), log=False, pdf=True, pdf_log=False)
 
@@ -197,7 +198,16 @@ for plot_name in plot_names :
                             output_bin = len(all_variations)*ibin_primary + ibin_secondary 
                             output_bin += 1 # for the root bin ordering
 
-                            if not "Efficiency" in plot_name :
+                            if "ResidualsClusterSize2" in plot_name and fit_size_2 :
+                                fitwidth = 1.25 # 1.25 sigma is ~80% of events, so we can ignore just the tails
+                                fit = h.Fit("gaus","S","",h.GetMean()-fitwidth*h.GetStdDev(),h.GetMean()+fitwidth*h.GetStdDev())
+                                mean = fit.Parameter(1)
+                                sigma = fit.Parameter(2)
+                                if output_bin < 10 :
+                                    print "JOEY", output_bin, mean, sigma
+                                out_hist.SetBinContent(output_bin,mean)
+                                out_hist.SetBinError(output_bin,sigma)
+                            elif not "Efficiency" in plot_name :
                                 mean = h.GetMean()
                                 rms = h.GetRMS()
                                 out_hist.SetBinContent(output_bin,mean)
@@ -243,6 +253,12 @@ for plot_name in plot_names :
             if plot_name == "hClusterSize_Dut0" :
                 y_axis_title = "average cluster size #pm RMS"
                 out_hist.GetYaxis().SetRangeUser(0,4)
+            elif "XResidualsClusterSize2" in plot_name and fit_size_2 :
+                y_axis_title = "avg fitted X residual #pm #sigma (#mum)"
+                out_hist.GetYaxis().SetRangeUser(-35,35)
+            elif "YResidualsClusterSize2" in plot_name and fit_size_2 :
+                y_axis_title = "avg fitted Y residual #pm #sigma (#mum)"
+                out_hist.GetYaxis().SetRangeUser(-35,35)
             elif "XResiduals" in plot_name :
                 y_axis_title = "average X residual #pm RMS (#mum)"
                 out_hist.GetYaxis().SetRangeUser(-35,35)
@@ -254,7 +270,7 @@ for plot_name in plot_names :
                 out_hist.GetYaxis().SetRangeUser(0,25000)
             elif "Efficiency" in plot_name :
                 y_axis_title = "efficiency"
-                out_hist.GetYaxis().SetRangeUser(0.8,1.000001)
+                out_hist.GetYaxis().SetRangeUser(0.999,1.000001)
 
             out_hist.SetLineColor(color_variations[varindex])
             out_hist.SetMarkerColor(color_variations[varindex])
