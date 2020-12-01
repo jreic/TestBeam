@@ -108,9 +108,6 @@ TF1* langausFit(TH1F* histo)
     langaus_->SetParLimits(p, parsLowLimit[p], parsHighLimit[p]);
   }
 
-  TFitResultPtr r = histo->Fit(langaus_,"RBL");
-  int fitStatus = r;
-
   return langaus_;
 }
 
@@ -176,9 +173,6 @@ TF1* fitGausPol0(TH1F* histo)
   for (int p=0; p<4; p++) {
     gauspol0_->SetParLimits(p, parsLowLimit[p], parsHighLimit[p]);
   }
-
-  TFitResultPtr r = histo->Fit(gauspol0_,"RBL");
-  int fitStatus = r;
 
   return gauspol0_;
 }

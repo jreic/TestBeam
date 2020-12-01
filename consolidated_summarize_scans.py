@@ -1,9 +1,10 @@
 from ROOTTools import *
-import sys
+import sys, warnings
 from block_dict import blocks
 from sensor_info import get_sensor_info
 
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
+ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 
 plot_dir_name = "Spring2020_TFPX_Results/summaries/consolidated_summary"
 
@@ -199,12 +200,14 @@ for plot_name in plot_names :
                             output_bin += 1 # for the root bin ordering
 
                             if "ResidualsClusterSize2" in plot_name and fit_size_2 :
-                                fitwidth = 1.25 # 1.25 sigma is ~80% of events, so we can ignore just the tails
-                                fit = h.Fit("gaus","S","",h.GetMean()-fitwidth*h.GetStdDev(),h.GetMean()+fitwidth*h.GetStdDev())
+                                gauspol0 = ROOT.fitGausPol0(h)
+                                fit = h.Fit(gauspol0, "RBLSQ")
                                 mean = fit.Parameter(1)
                                 sigma = fit.Parameter(2)
-                                if output_bin < 10 :
-                                    print "JOEY", output_bin, mean, sigma
+                                if abs(mean) > 35 :
+                                    printout = "bin %i has mean %f and sigma %f" % (output_bin, mean, sigma)
+                                    printout = "\033[91m" + printout + "\033[0m"
+                                    warnings.warn(printout)
                                 out_hist.SetBinContent(output_bin,mean)
                                 out_hist.SetBinError(output_bin,sigma)
                             elif not "Efficiency" in plot_name :

@@ -139,18 +139,16 @@ for plot_path in plot_paths :
 
         # draw charge distributions with their Landau x Gaussian fits
         if "Landau" in plot_name and h.GetEntries() > 0 :
-            print("\nFit results for %s:" % plot_name)
-            fit = ROOT.langausFit(h)
+            langaus = ROOT.langausFit(h)
+            fit = h.Fit(langaus, "RBLSQ")
             h.GetXaxis().SetRangeUser(0, 25000)
             h.Draw()
-            fit.Draw("same")
         elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
-            print("\nFit results for %s:" % plot_name)
-            fit = ROOT.fitGausPol0(h)
+            gauspol0 = ROOT.fitGausPol0(h)
+            fit = h.Fit(gauspol0, "RBLSQ")
             h.Draw()
-            fit.Draw("same")
         elif "ChargeAsymmetryInv" in plot_name and h.GetEntries() > 0 :
-            h.Fit("pol1", "", "", -0.5, 0.5)
+            h.Fit("pol1", "RQ", "", -0.5, 0.5)
             ROOT.gStyle.SetStatH(0.1)
             h.Draw()
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
