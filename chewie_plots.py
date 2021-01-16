@@ -32,6 +32,8 @@ plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefZoomedIn25x100_Dut0
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNormZoomedIn25x100_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
+plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyNorm_Dut0")
+plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRefNorm_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/h2D4cellEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/h2D4cellEfficiencyRef_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResiduals_Dut0")
@@ -125,7 +127,7 @@ for plot_path in plot_paths :
     elif "h2DClusterSize_Dut0" in plot_name :
         h.SetMinimum(1)
         h.SetMaximum(2)
-    elif "CellEfficiency" in plot_name or ("2DEfficiency" in plot_name and not "Norm" in plot_name) :
+    elif ("CellEfficiency" in plot_name or "2DEfficiency" in plot_name) and not "Norm" in plot_name :
         h.SetMinimum(0)
         h.SetMaximum(1)
 
@@ -154,16 +156,30 @@ for plot_path in plot_paths :
             ROOT.gStyle.SetStatH(0.1)
             h.Draw()
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
-            h.Draw("text0")
+            h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
+            nevents = h_norm.GetBinContent(1)
+            eff = h.GetBinContent(1)
+
+            # use ClopperPearson to get abs err on efficiency (binomial is no good near eff = 100%),
+            # then draw it as text on the canvas
+            abs_err_up   = ROOT.TEfficiency.ClopperPearson(nevents, eff*nevents, 0.68, True) - eff
+            abs_err_down = eff - ROOT.TEfficiency.ClopperPearson(nevents, eff*nevents, 0.68, False)
+            eff_text      = ROOT.TText(0.84, 1.0,  "{eff:.4f}%".format(eff=eff*100))
+            err_up_text   = ROOT.TText(1.086, 1.06, "+{err:.4f}%".format(err=abs_err_up*100))
+            err_down_text = ROOT.TText(1.1, 0.96, "-{err:.4f}%".format(err=abs_err_down*100))
+            h.Draw("AXIS")
+            eff_text.Draw("same")
+            err_up_text.Draw("same")
+            err_down_text.Draw("same")
         else :
             h.Draw()
 
     ps.save(plot_name)
 
-    if "CellEfficiency" in plot_name or "cellEfficiency" in plot_name :
+    if ("CellEfficiency" in plot_name or "cellEfficiency" in plot_name) and not "Norm" in plot_name :
         ps.c.Clear()
         hclone = h.Clone(plot_name+"_smallerRange")
-        hclone.SetMinimum(0.8)
+        hclone.SetMinimum(0.9)
         hclone.SetMaximum(1.0)
         hclone.Draw("colz")
         ps.save(plot_name+"_smallerRange")

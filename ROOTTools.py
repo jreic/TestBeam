@@ -23,6 +23,7 @@ def plot_dir(x='', make=False, temp=False):
     d = None
     if 'fnal.gov' in hostname :
         d = '/publicweb/%s/%s/TFPX' % (username[0],username)
+        #d = '~/nobackup/copy_to_classe'
     elif 'classe.cornell.edu' in hostname :
         d = '~/public_html/TFPX'
     if d:
