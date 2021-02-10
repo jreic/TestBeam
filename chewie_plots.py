@@ -46,6 +46,8 @@ plot_paths.append("Resolution/Dut0/XResiduals/hXResidualCalculatedSize2_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualCalculatedSize2_Dut0")
 plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsDigital_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsDigital_Dut0")
+plot_paths.append("Resolution/Dut0/Errors/hPredictedXErrors_Dut0")
+plot_paths.append("Resolution/Dut0/Errors/hPredictedYErrors_Dut0")
 plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hCellLandau_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpTo4_Dut0")
@@ -146,6 +148,9 @@ for plot_path in plot_paths :
             langaus = ROOT.langausFit(h)
             fit = h.Fit(langaus, "RBLSQ")
             h.GetXaxis().SetRangeUser(0, 25000)
+            h.Draw()
+        elif "Predicted" in plot_name and "Errors" in plot_name :
+            h.GetXaxis().SetRangeUser(3, 6)
             h.Draw()
         elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
             gauspol0 = ROOT.fitGausPol0(h)

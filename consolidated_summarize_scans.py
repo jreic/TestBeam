@@ -6,7 +6,7 @@ from sensor_info import get_sensor_info
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
 ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 
-plot_dir_name = "Spring2020_TFPX_Results/summaries/consolidated_summary"
+plot_dir_name = "Dec2020_TFPX_Results_as_of_Jan16th/summary"
 
 # FIXME note that this probably only works for nominal and for LKC20/27 stuff
 filter_str = "nominal"
@@ -59,7 +59,7 @@ for plot_name in plot_names :
             plot_title += "LKC40"
         plot_title += ")"
 
-    basepath = "~/public_html/TFPX/Spring2020_TFPX_Results/"
+    basepath = "~/publicweb/TFPX/"
 
     files = []
     labels = []
@@ -69,7 +69,7 @@ for plot_name in plot_names :
     orig_keys = sorted(blocks.keys())
     ordering = []
     if filter_str == "nominal" :
-        ordering = ["136","131","139","135","134","125","128","133","144","127","130","114","116"]
+        ordering = ["131","135","180","185","183","184","186","193","194","114"]
     elif filter_str == "lkc" or "K" in filter_str or "L" in filter_str or "M" in filter_str :
         ordering = ["134"]
     sorted_keys = []
@@ -92,9 +92,9 @@ for plot_name in plot_names :
     all_variations = []
     color_variations = []
     if filter_str == "nominal" :
-        all_variations = ["A","B","C","D","E","F","G"]
-        varlabels = ["0#circ","5#circ","10#circ","15#circ","20#circ","24#circ","29#circ"]
-        color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1]
+        all_variations = ["0","4","6","7","8","10","12","16","18","20","24"]
+        varlabels = [var+"#circ" for var in all_variations]
+        color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2]
     if filter_str == "lkc" :
         all_variations = ["AK","BK","CK","DK","EK","AL","BL","CL","DL","EL","AM","BM","CM","DM","EM"]
         varlabels = ["0#circ","5#circ","10#circ","15#circ","20#circ"]*3
@@ -105,6 +105,7 @@ for plot_name in plot_names :
         color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3]
 
     nbins = len(ordering) * len(all_variations)
+    print nbins
 
     for key in sorted_keys :
         
@@ -116,27 +117,39 @@ for plot_name in plot_names :
 
         label = sensor+" "
 
-        if   "A" in key and filter_str != "A" : 
+        if   "_0" in key and filter_str != "0" : 
             label += "0#circ"
-            variation = "A"
-        elif "B" in key and filter_str != "B" : 
-            label += "5#circ"
-            variation = "B"
-        elif "C" in key and filter_str != "C" : 
+            variation = "0"
+        elif "_4" in key and filter_str != "4" : 
+            label += "4#circ"
+            variation = "4"
+        elif "_6" in key and filter_str != "6" : 
+            label += "6#circ"
+            variation = "6"
+        elif "_7" in key and filter_str != "7" : 
+            label += "7#circ"
+            variation = "7"
+        elif "_8" in key and filter_str != "8" : 
+            label += "8#circ"
+            variation = "8"
+        elif "_10" in key and filter_str != "10" : 
             label += "10#circ"
-            variation = "C"
-        elif "D" in key and filter_str != "D" : 
-            label += "15#circ"
-            variation = "D"
-        elif "E" in key and filter_str != "E" : 
+            variation = "10"
+        elif "_12" in key and filter_str != "12" : 
+            label += "12#circ"
+            variation = "12"
+        elif "_16" in key and filter_str != "16" : 
+            label += "16#circ"
+            variation = "16"
+        elif "_18" in key and filter_str != "18" : 
+            label += "18#circ"
+            variation = "18"
+        elif "_20" in key and filter_str != "20" : 
             label += "20#circ"
-            variation = "E"
-        elif "F" in key and filter_str != "F" : 
+            variation = "20"
+        elif "_24" in key and filter_str != "24" : 
             label += "24#circ"
-            variation = "F"
-        elif "G" in key and filter_str != "G" : 
-            label += "29#circ"
-            variation = "G"
+            variation = "24"
 
         if filter_str == "lkc" :
             if   "K" in key :
@@ -149,12 +162,12 @@ for plot_name in plot_names :
                 label += " LKC40"
                 variation += "M"
 
-        # for multiple blocks w/ same conditions
-        if   key.endswith("1") : 
-            label += " #1"
-        elif key.endswith("2") and key != "134_EM2" : # FIXME special case being skipped for now... 
-            label += " #2"
-            variation += "2"
+        # for multiple blocks w/ same conditions - FIXME broken now!
+        #if   key.endswith("1") : 
+        #    label += " #1"
+        #elif key.endswith("2") and key != "134_EM2" : # FIXME special case being skipped for now... 
+        #    label += " #2"
+        #    variation += "2"
 
         if show_sensor_info :
             pitch, sensor_type = get_sensor_info(sensor)
@@ -172,7 +185,7 @@ for plot_name in plot_names :
     #leg.SetMargin(0.15)
 
     #nbins = len(sorted_keys)
-    for duplicate in ["", "2"] :
+    for duplicate in [""] :
         for varindex in xrange(0, len(all_variations)) :
             var = all_variations[varindex]
             varlabel = varlabels[varindex]
@@ -273,7 +286,8 @@ for plot_name in plot_names :
                 out_hist.GetYaxis().SetRangeUser(0,25000)
             elif "Efficiency" in plot_name :
                 y_axis_title = "efficiency"
-                out_hist.GetYaxis().SetRangeUser(0.999,1.000001)
+                out_hist.GetYaxis().SetRangeUser(0.98,1.000001)
+                #out_hist.GetYaxis().SetRangeUser(0,1.000001)
 
             out_hist.SetLineColor(color_variations[varindex])
             out_hist.SetMarkerColor(color_variations[varindex])

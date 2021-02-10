@@ -5,7 +5,7 @@ from sensor_info import get_sensor_info
 
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
 
-plot_dir_name = "Spring2020_TFPX_Results/summaries/summary"
+plot_dir_name = "Dec2020_TFPX_Results_as_of_Jan16th/summary"
 
 filter_str = None
 if len(sys.argv) > 1 :
@@ -71,7 +71,7 @@ for plot_name in plot_names :
             plot_title += "LKC40"
         plot_title += ")"
 
-    basepath = "~/public_html/TFPX/Spring2020_TFPX_Results/"
+    basepath = "~/publicweb/TFPX/"
 
     files = []
     labels = []
