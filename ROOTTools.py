@@ -23,6 +23,8 @@ def plot_dir(x='', make=False, temp=False):
     d = None
     if 'fnal.gov' in hostname :
         d = '/publicweb/%s/%s/TFPX' % (username[0],username)
+        if not os.path.isdir(d) :
+            d = '~/nobackup/chewie_plots/'
         #d = '~/nobackup/copy_to_classe'
     elif 'classe.cornell.edu' in hostname :
         d = '~/public_html/TFPX'
