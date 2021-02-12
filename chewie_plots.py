@@ -188,3 +188,5 @@ for plot_path in plot_paths :
         hclone.SetMaximum(1.0)
         hclone.Draw("colz")
         ps.save(plot_name+"_smallerRange")
+
+print("\nDone! Outputs are at %s" % ps.plot_dir)
