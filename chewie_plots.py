@@ -161,6 +161,7 @@ for plot_path in plot_paths :
             ROOT.gStyle.SetStatH(0.1)
             h.Draw()
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
+            h.GetYaxis().SetRangeUser(0,2)
             h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
             nevents = h_norm.GetBinContent(1)
             eff = h.GetBinContent(1)
@@ -189,4 +190,8 @@ for plot_path in plot_paths :
         hclone.Draw("colz")
         ps.save(plot_name+"_smallerRange")
 
-print("\nDone! Outputs are at %s" % ps.plot_dir)
+printout = "\nDone! Outputs are at %s" % ps.plot_dir
+if ps.plot_dir.startswith('/publicweb/') :
+    httpdir = "https://home.fnal.gov/~" + ps.plot_dir[len("/publicweb/*/"):]
+    printout += " (%s)" % httpdir
+print(printout)
