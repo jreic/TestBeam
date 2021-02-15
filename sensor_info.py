@@ -13,6 +13,7 @@ def get_sensor_info(sensor) :
     if sensor == "137" : return "50x50" , "FTH straight"
     if sensor == "133" : return "50x50" , "FTH straight"
     if sensor == "144" : return "50x50" , "FTH straight"
+    if "144irrad" in sensor : return "50x50" , "FTH straight"
     if sensor == "126" : return "50x50" , "FTH wiggle"
     if sensor == "127" : return "50x50" , "FTH wiggle"
     if sensor == "130" : return "50x50" , "FTH wiggle"
@@ -29,6 +30,9 @@ def get_sensor_info(sensor) :
     if sensor == "186" : return "50x50",  "HPK default no PT"
     if sensor == "193" : return "100x25", "FBK 3D"
     if sensor == "194" : return "50x50",  "FBK 3D"
+    if sensor == "IT1" : return "50x50",  "FBK slimedge 200"
+    if "IT5irrad" in sensor : return "50x50",  "FBK slimedge 100"
+    if sensor == "502" : return "100x25",  "FBK planar EXT02"
 
 
     return None,None
