@@ -2,10 +2,11 @@ from ROOTTools import *
 import sys, warnings
 from sensor_info import get_sensor_info
 
+ROOT.gStyle.SetTitleX(0.28)
 ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
 ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 
-plot_dir_name = "Feb2021_TFPX_Results_as_of_Feb16th/summary"
+plot_dir_name = "Feb2021_TFPX_Results_as_of_March1/scratch_summary"
 
 # FIXME note that this probably only works for nominal and for LKC20/27 stuff
 filter_str = "nominal_Feb2021"
@@ -79,7 +80,7 @@ for plot_name in plot_names :
         #ordering = ["184","502","IT1","144irrad100V","IT5irrad0V","IT5irrad20V","IT5irrad100V","IT5irrad160V","IT5irrad180V","IT5irrad200V"]
         ordering = ["184","502","IT1","144irrad100V","IT5irrad200V"]
     elif filter_str == "IT5_bias_scan_Feb2021" :
-        ordering = ["IT5irrad0V","IT5irrad20V","IT5irrad100V","IT5irrad160V","IT5irrad180V","IT5irrad200V"]
+        ordering = ["IT5irrad0V","IT5irrad20V","IT5irrad160V","IT5irrad180V","IT5irrad200V"]
     elif filter_str == "lkc" or "K" in filter_str or "L" in filter_str or "M" in filter_str :
         ordering = ["134"]
     sorted_keys = []
@@ -104,16 +105,16 @@ for plot_name in plot_names :
     all_variations = []
     color_variations = []
     if filter_str == "nominal_Dec2020" :
-        all_variations = ["0","4","6","7","8","10","12","16","18","20","24"]
+        all_variations = ["0","2","4","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","24"]
         varlabels = [var+"#circ" for var in all_variations]
-        color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2]
+        color_variations = [ROOT.kRed,ROOT.kBlack,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4,ROOT.kOrange,ROOT.kRed-2,ROOT.kBlue-2,ROOT.kGreen-2,ROOT.kGray+2,ROOT.kViolet+2]
     elif filter_str == "nominal_Feb2021" :
         all_variations = ["0","2","4","8","12","14","16","17","18","19","20","21","22","24"]
         varlabels = [var+"#circ" for var in all_variations]
         color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4]
     elif filter_str == "IT5_bias_scan_Feb2021" :
-        all_variations = ["0","2","4","8","12","14","16","17","18","19","20","21","22","24"]
-        varlabels = [var+"#circ" for var in all_variations]
+        all_variations = ["0V","20V","160V","180V","200V"]
+        varlabels = [var for var in all_variations]
         color_variations = [ROOT.kBlack,ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4]
     if filter_str == "lkc" :
         all_variations = ["AK","BK","CK","DK","EK","AL","BL","CL","DL","EL","AM","BM","CM","DM","EM"]
@@ -167,6 +168,9 @@ for plot_name in plot_names :
         if "_14" in key and filter_str != "14" : 
             label += "14#circ"
             variation = "14"
+        if "_15" in key and filter_str != "15" : 
+            label += "15#circ"
+            variation = "15"
         if "_16" in key and filter_str != "16" : 
             label += "16#circ"
             variation = "16"
@@ -191,6 +195,42 @@ for plot_name in plot_names :
         if "_24" in key and filter_str != "24" : 
             label += "24#circ"
             variation = "24"
+
+        if "bias" in filter_str :
+            label = sensor + " "
+            if "0V" in key :
+                label = "0V"
+                variation = "0V"
+            if "20V" in key :
+                label = "20V"
+                variation = "20V"
+            if "40V" in key :
+                label = "40V"
+                variation = "40V"
+            if "60V" in key :
+                label = "60V"
+                variation = "60V"
+            if "80V" in key :
+                label = "80V"
+                variation = "80V"
+            if "100V" in key :
+                label = "100V"
+                variation = "100V"
+            if "120V" in key :
+                label = "120V"
+                variation = "120V"
+            if "140V" in key :
+                label = "140V"
+                variation = "140V"
+            if "160V" in key :
+                label = "160V"
+                variation = "160V"
+            if "180V" in key :
+                label = "180V"
+                variation = "180V"
+            if "200V" in key :
+                label = "200V"
+                variation = "200V"
 
         if filter_str == "lkc" :
             if   "K" in key :
@@ -371,8 +411,8 @@ for plot_name in plot_names :
         leg = ps.c.BuildLegend(0.82,0.92,0.98,0.99)
         leg.SetNColumns(3)
     else :
-        leg = ps.c.BuildLegend(0.77,0.92,0.98,0.99)
-        leg.SetNColumns(4)
+        leg = ps.c.BuildLegend(0.55,0.92,0.98,0.99)
+        leg.SetNColumns(7)
 
     leg_primitives = leg.GetListOfPrimitives()
     iprim = 0

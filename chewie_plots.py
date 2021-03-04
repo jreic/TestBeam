@@ -166,10 +166,8 @@ for plot_path in plot_paths :
             nevents = h_norm.GetBinContent(1)
             eff = h.GetBinContent(1)
 
-            # use ClopperPearson to get abs err on efficiency (binomial is no good near eff = 100%),
             # then draw it as text on the canvas
-            abs_err_up   = ROOT.TEfficiency.ClopperPearson(nevents, eff*nevents, 0.68, True) - eff
-            abs_err_down = eff - ROOT.TEfficiency.ClopperPearson(nevents, eff*nevents, 0.68, False)
+            abs_err_down, abs_err_up = clopper_pearson_abs_err(nevents, eff)
             eff_text      = ROOT.TText(0.84, 1.0,  "{eff:.4f}%".format(eff=eff*100))
             err_up_text   = ROOT.TText(1.086, 1.06, "+{err:.4f}%".format(err=abs_err_up*100))
             err_down_text = ROOT.TText(1.1, 0.96, "-{err:.4f}%".format(err=abs_err_down*100))

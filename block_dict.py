@@ -1,5 +1,5 @@
 blocksDec2020 = {
-        "131_0"  : "Chewie_Run32751", 
+        "131_0"  : "Chewie_Runs32751_32758", 
         "135_4"  : "Chewie_Runs31435_31510", 
         "180_4"  : "Chewie_Runs31533_31555", 
         "180_6"  : "Chewie_Runs31590_31598", 
@@ -20,19 +20,44 @@ blocksDec2020 = {
         "114_16" : "Chewie_Runs32587_32596", 
         "114_20" : "Chewie_Runs32612_32622", 
         "114_24" : "Chewie_Runs32632_32649", 
-        "193_0"  : "Chewie_Runs31983_31998",
-        "194_0"  : "Chewie_Runs32658_32662", 
-        "194_4"  : "Chewie_Runs32663_32670", 
-        "194_8"  : "Chewie_Runs32672_32679", 
-        "194_12" : "Chewie_Runs32680_32686", 
+        "193_0"  : "Chewie_Runs31975_32138",
+        "193_2"  : "Chewie_Runs31999_32005",
+        "193_4"  : "Chewie_Runs32006_32016",
+        "193_6"  : "Chewie_Runs32017_32022",
+        "193_7"  : "Chewie_Runs32024_32028",
+        "193_8"  : "Chewie_Runs32029_32039",
+        "193_9"  : "Chewie_Runs32040_32044",
+        "193_10" : "Chewie_Runs32045_32049",
+        "193_11" : "Chewie_Runs32050_32066",
+        "193_12" : "Chewie_Runs32067_32087",
+        "193_13" : "Chewie_Runs32078_32084",
+        "193_14" : "Chewie_Runs32088_32093",
+        "193_16" : "Chewie_Runs32094_32107",
+        "193_18" : "Chewie_Runs32108_32112",
+        "193_20" : "Chewie_Runs32113_32125",
+        #"194_0"  : "Chewie_Runs32658_32662", # FIXME allow for duplicate blocks 
+        #"194_4"  : "Chewie_Runs32663_32670", # FIXME allow for duplicate blocks 
+        #"194_8"  : "Chewie_Runs32672_32679", # FIXME allow for duplicate blocks 
+        #"194_12" : "Chewie_Runs32680_32686", # FIXME allow for duplicate blocks 
         "194_16" : "Chewie_Runs32688_32694", 
         "194_20" : "Chewie_Runs32695_32701", 
         "194_24" : "Chewie_Runs32702_32703", 
+        "194_0"  : "Chewie_Runs31692_31715",
+        "194_4"  : "Chewie_Runs31719_31724",
+        "194_8"  : "Chewie_Runs31725_31729",
+        "194_10" : "Chewie_Runs31731_31737",
+        "194_12" : "Chewie_Runs31738_31744",
+        "194_14" : "Chewie_Runs31745_31750",
+        "194_15" : "Chewie_Runs31751_31756",
+        "194_17" : "Chewie_Runs31770_31775",
+        "194_18" : "Chewie_Runs31776_31781",
+        "194_19" : "Chewie_Runs31782_31788",
         "184_0"  : "Chewie_Runs32725_32738", 
         "184_12" : "Chewie_Runs32739_32741", 
         "184_18" : "Chewie_Runs32742_32746", 
         "184_24" : "Chewie_Runs32747_32750", 
 }
+
 
 blocksFeb2021 = {
         "184_12"          : "Chewie_Runs32927_32939",

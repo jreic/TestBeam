@@ -230,37 +230,16 @@ class plot_saver:
             logfcn(0)
         self.saved.append((fn, log, root, root_log, pdf, pdf_log, C, C_log))
 
-def clopper_pearson(n_on, n_tot, alpha=1-0.6827, equal_tailed=True):
-    if equal_tailed:
-        alpha_min = alpha/2
-    else:
-        alpha_min = alpha
-
-    lower = 0
-    upper = 1
-
-    if n_on > 0:
-        lower = ROOT.Math.beta_quantile(alpha_min, n_on, n_tot - n_on + 1)
-    if n_tot - n_on > 0:
-        upper = ROOT.Math.beta_quantile_c(alpha_min, n_on + 1, n_tot - n_on)
-
-    if n_on == 0 and n_tot == 0:
-        return 0, lower, upper
-    else:
-        return float(n_on)/n_tot, lower, upper
-
-def clopper_pearson_poisson_means(x, y, alpha=1-0.6827):
-    r, rl, rh = clopper_pearson(x, x+y, alpha)
-    pl = rl/(1-rl)
-    if y == 0 or abs(rh - 1) < 1e-9:
-        return None, pl, None
-    return r/(1-r), pl, rh/(1 - rh)
+# use ClopperPearson to get abs err on efficiency (binomial is no good near eff = 100%),
+def clopper_pearson_abs_err(nevents, eff) :
+    abs_err_down = eff - ROOT.TEfficiency.ClopperPearson(nevents, eff*nevents, 0.68, False)
+    abs_err_up   = ROOT.TEfficiency.ClopperPearson(nevents, eff*nevents, 0.68, True) - eff
+    return abs_err_down, abs_err_up
 
 
 __all__ = [
     'plot_dir',
     'plot_saver',
     'ROOT',
-    'clopper_pearson',
-    'clopper_pearson_poisson_means',
+    'clopper_pearson_abs_err',
     ]
