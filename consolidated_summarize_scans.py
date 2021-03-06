@@ -1,5 +1,5 @@
 from ROOTTools import *
-import sys, warnings, math
+import sys, os, warnings, math
 from block_class import get_sensor_info
 
 ROOT.gStyle.SetTitleX(0.28)
@@ -47,6 +47,8 @@ plot_paths = [
               ,"Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0"
              ]
 
+invalid_blocks = []
+
 for plot_path in plot_paths :
 
     plot_name = plot_path.split("/")[-1]
@@ -92,10 +94,15 @@ for plot_path in plot_paths :
                 if filter_str == "IT5_bias_scan_Feb2021" :
                     if block.angle != 0 : continue
 
+                fpath = os.path.expanduser(basepath+block.run_range+".root") # to expand the ~
+                if not os.path.exists(fpath) :
+                    invalid_blocks.append(fpath)
+                    continue
+
+                block.root_file = ROOT.TFile(fpath)
+
                 sensors.append(sensor)
                 sorted_blocks.append(block)
-
-                block.root_file = ROOT.TFile(basepath+block.run_range+".root")
 
                 # for overlaying separate run blocks w/ identical conditions
                 largest_duplicate = max(largest_duplicate,block.duplicate)
@@ -248,9 +255,11 @@ for plot_path in plot_paths :
                 out_hist.SetMarkerSize(1)
                 out_hist.SetLineWidth(2)
             else :
-                out_hist.SetMarkerStyle(20+4*duplicate)
+                # making the duplicates distinguishable
+                out_hist.SetMarkerStyle(23+duplicate)
                 out_hist.SetMarkerSize(1.25)
                 out_hist.SetLineWidth(1)
+                out_hist.SetLineStyle(11-duplicate)
             ps.c.SetBottomMargin(0.2)
             ps.c.SetLeftMargin(0.10)
             ps.c.SetRightMargin(0.02)
@@ -326,6 +335,10 @@ for plot_path in plot_paths :
         ps.update_canvas()
         ps.save(plot_name+"_0to1")
         
+if len(invalid_blocks) > 0 :
+    print "The following blocks were invalid (maybe not in the right directory?)"
+    for invalid in sorted(set(invalid_blocks)) :
+        print invalid
 
 printout = "\nDone! Outputs are at %s" % ps.plot_dir
 if ps.plot_dir.startswith('/publicweb/') :
