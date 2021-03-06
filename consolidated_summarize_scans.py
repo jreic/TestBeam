@@ -259,7 +259,6 @@ for plot_path in plot_paths :
                 out_hist.SetMarkerStyle(23+duplicate)
                 out_hist.SetMarkerSize(1.25)
                 out_hist.SetLineWidth(1)
-                out_hist.SetLineStyle(11-duplicate)
             ps.c.SetBottomMargin(0.2)
             ps.c.SetLeftMargin(0.10)
             ps.c.SetRightMargin(0.02)
