@@ -25,7 +25,7 @@ blocksDec2020 = [
     block_obj("Chewie_Runs31745_31750", "194", angle=14),
     block_obj("Chewie_Runs31751_31756", "194", angle=15),
     block_obj("Chewie_Runs32688_32694", "194", angle=16), 
-    block_obj("Chewie_Runs31760_31763", "194", angle=16, duplicate=1),
+    #block_obj("Chewie_Runs31760_31763", "194", angle=16, duplicate=1), # had low efficiency, maybe due to missing pixel telescope ==> some low quality tracks
     block_obj("Chewie_Runs31770_31775", "194", angle=17),
     block_obj("Chewie_Runs31776_31781", "194", angle=18),
     block_obj("Chewie_Runs31782_31788", "194", angle=19),

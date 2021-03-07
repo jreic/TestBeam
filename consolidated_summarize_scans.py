@@ -115,7 +115,7 @@ for plot_path in plot_paths :
         varlabels = ["%sV" % var for var in variations]
 
     n_vars = len(variations)
-    colors = [ROOT.kRed,ROOT.kBlack,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4,ROOT.kOrange,ROOT.kRed-2,ROOT.kBlue-2,ROOT.kGreen-2,ROOT.kGray+2,ROOT.kViolet+2]
+    colors = [ROOT.kRed,ROOT.kOrange+1,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4,ROOT.kOrange,ROOT.kRed-2,ROOT.kBlue-2,ROOT.kSpring+4,ROOT.kGray+2,ROOT.kViolet+2, ROOT.kPink+1]
     #colors = [ROOT.kGray,ROOT.kBlack,ROOT.kRed,ROOT.kGreen,ROOT.kBlue,ROOT.kYellow+1,ROOT.kMagenta,ROOT.kCyan,ROOT.kOrange,ROOT.kSpring,ROOT.kTeal,ROOT.kAzure,ROOT.kViolet,ROOT.kPink] # FIXME add more on to here
 
     nbins = len(ordering) * len(variations)
