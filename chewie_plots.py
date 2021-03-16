@@ -1,7 +1,7 @@
 from ROOTTools import *
 import sys
 
-ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
+ROOT.gStyle.SetOptFit(0o0100) # adds Landau MPV to stat box
 ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 ROOT.gErrorIgnoreLevel = ROOT.kWarning
 

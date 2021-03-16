@@ -3,7 +3,7 @@ import sys, os, warnings, math
 from block_class import get_sensor_info
 
 ROOT.gStyle.SetTitleX(0.28)
-ROOT.gStyle.SetOptFit(0100) # adds Landau MPV to stat box
+ROOT.gStyle.SetOptFit(0o0100) # adds Landau MPV to stat box
 ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 ROOT.gErrorIgnoreLevel = ROOT.kWarning
 eff_ymax = 1.000001
