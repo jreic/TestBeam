@@ -160,6 +160,7 @@ class plot_saver:
                 html.write('<img src="%s"><img src="%s"><br><br>\n' % (bn, os.path.basename(log)))
             else:
                 html.write('<img src="%s"><br><br>\n' % bn)
+                #html.write('<embed src="%s" width="600px" height="700px" />' % bn.replace('.png','.pdf')) # if we wanted to switch to showing the pdfs on the webpage
         if num_pages > 1:
             write_pages_line()
         html.write('</pre></body></html>\n')
