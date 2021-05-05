@@ -2,6 +2,7 @@ from ROOTTools import *
 import sys
 
 ROOT.gStyle.SetOptFit(0o0100) # adds Landau MPV to stat box
+ROOT.gStyle.SetOptTitle(0)
 ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 ROOT.gErrorIgnoreLevel = ROOT.kWarning
 
@@ -10,7 +11,7 @@ filename = filepath.split("/")[-1]
 
 # to save our plots
 #ps = plot_saver(plot_dir("Spring2020/"+filename.split(".")[0]), size=(600,600), log=False, pdf=False)
-ps = plot_saver(plot_dir(filename.split(".")[0]), size=(600,600), log=False, pdf=False)
+ps = plot_saver(plot_dir(filename.split(".")[0]+"_forAPS"), size=(600,600), log=False, pdf=True)
 
 # the ROOT file
 f = ROOT.TFile(filepath)
@@ -124,7 +125,7 @@ for plot_path in plot_paths :
     plot_name = plot_path.split("/")[-1]
 
     if "2DCharge" in plot_name or "2DCellCharge" in plot_name :
-        #h.SetMaximum(5000) # I think this was for MJ13, where 5k electrons really was a sensible maximum...
+        h.SetMaximum(15000) # I think this was for MJ13, where 5k electrons really was a sensible maximum...
         pass
     elif "h2DClusterSize_Dut0" in plot_name :
         h.SetMinimum(1)
@@ -145,21 +146,69 @@ for plot_path in plot_paths :
 
         # draw charge distributions with their Landau x Gaussian fits
         if "Landau" in plot_name and h.GetEntries() > 0 :
+            h.GetXaxis().SetRangeUser(1000,25000)
             langaus = ROOT.langausFit(h)
-            fit = h.Fit(langaus, "RBLSQ","",6000,20000)
-            h.GetXaxis().SetRangeUser(0, 25000)
+            fit = h.Fit(langaus, "RBLSQ", "", 8000, 20000)
+            #h.GetXaxis().SetRangeUser(0, 25000)
             h.Draw()
         elif "Predicted" in plot_name and "Errors" in plot_name :
             h.GetXaxis().SetRangeUser(3, 6)
             h.Draw()
-        elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
+        elif "ResidualsClusterSize1" in plot_name and h.GetEntries() > 0 :
+            h.Scale(1./h.Integral())
             gauspol0 = ROOT.fitGausPol0(h)
-            fit = h.Fit(gauspol0, "RBLSQ")
+            h.SetStats(0)
+            h.SetTitle("Data (RMS = %.1f #mum)" % round(h.GetStdDev(),1))
+            h.SetLineWidth(2)
+            h.SetLineColor(ROOT.kBlack)
             h.Draw()
+            h.GetXaxis().SetRangeUser(-50,50)
+            if "X" in h.GetName() :
+                h.GetXaxis().SetTitle("y residual (#mum), telescope coordinates")
+            else :
+                h.GetXaxis().SetTitle("x residual (#mum), telescope coordinates")
+            h.GetYaxis().SetTitle("a.u.")
+            ps.c.SetMargin(0.13,0.1,0.1,0.1)
+            h.GetYaxis().SetTitleOffset(1.9)
+            leg = ps.c.BuildLegend(0.65,0.80,0.9,0.9)
+        #elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
+        elif ("Residuals" in plot_name) and h.GetEntries() > 0 :
+            h.Scale(1./h.Integral())
+            gauspol0 = ROOT.fitGausPol0(h)
+            fit = h.Fit(gauspol0, "RBLSQ","",-30,30)
+            fithist = h.GetFunction("gauspol0")
+            sigma = fit.Parameter(2)
+            h.SetStats(0)
+            h.SetTitle("Data")
+            h.SetLineWidth(2)
+            h.SetLineColor(ROOT.kBlack)
+            h.Draw()
+            h.GetXaxis().SetRangeUser(-50,50)
+            #h.GetXaxis().SetRangeUser(-25,25) # FIXME!!
+            if "X" in h.GetName() :
+                h.GetXaxis().SetTitle("y residual (#mum), telescope coordinates")
+            else :
+                h.GetXaxis().SetTitle("x residual (#mum), telescope coordinates")
+            h.GetYaxis().SetTitle("a.u.")
+            h.GetYaxis().SetTitleOffset(1.5)
+            leg = ps.c.BuildLegend(0.6,0.7,0.9,0.9)
+            leg.AddEntry(fithist, "Fit (#sigma = %.1f #mum)" % round(sigma,1), "l")
         elif "ChargeAsymmetryInv" in plot_name and h.GetEntries() > 0 :
-            h.Fit("pol1", "RQ", "", -0.5, 0.5)
+            fit = h.Fit("pol1", "RQS", "", -0.5, 0.5)
+            slope = fit.Parameter(1)
+            fithist = h.GetFunction("pol1")
             ROOT.gStyle.SetStatH(0.1)
+            h.SetLineWidth(2)
+            h.SetLineColor(ROOT.kBlack)
+            h.SetMarkerColor(ROOT.kBlack)
             h.Draw()
+            h.SetStats(0)
+            h.SetTitle("Data")
+            h.GetYaxis().SetRangeUser(-20,20)
+            h.GetYaxis().SetTitle("Distance from midpoint (#mum)")
+            h.GetYaxis().SetTitleOffset(1.2)
+            leg = ps.c.BuildLegend(0.5,0.7,0.9,0.9)
+            leg.AddEntry(fithist, "Fit (slope = %.1f #mum)" % round(slope,1), "l")
         elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
             h.GetYaxis().SetRangeUser(0,2)
             h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
@@ -183,10 +232,38 @@ for plot_path in plot_paths :
     if ("CellEfficiency" in plot_name or "cellEfficiency" in plot_name) and not "Norm" in plot_name :
         ps.c.Clear()
         hclone = h.Clone(plot_name+"_smallerRange")
-        hclone.SetMinimum(0.9)
+        hclone.SetMinimum(0.92)
         hclone.SetMaximum(1.0)
+
+        if "4cell" in plot_name :
+            hclone.GetXaxis().SetRangeUser(-50,50)
+        else :
+            hclone.GetXaxis().SetRangeUser(-25,25)
+            hclone.GetYaxis().SetRangeUser(-25,25)
+        hclone.GetXaxis().SetTitle("x position in pixel cell (#mum)")
+        hclone.GetYaxis().SetTitle("y position in pixel cell (#mum)")
+        # short pitch is the one we rotate into, which is the telescope x
+
         hclone.Draw("colz")
         ps.save(plot_name+"_smallerRange")
+
+        h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
+        h_num = hclone
+        h_num.Multiply(h_norm)
+        h_norm.Rebin2D(2,2)
+        h_num.Rebin2D(2,2)
+
+        h_eff_rebinned = h_num
+        h_eff_rebinned.Divide(h_norm)
+        h_eff_rebinned.SetMinimum(0.92)
+        if "4cell" in plot_name :
+            h_eff_rebinned.GetXaxis().SetRangeUser(-50,50)
+        else :
+            h_eff_rebinned.GetXaxis().SetRangeUser(-25,25)
+            h_eff_rebinned.GetYaxis().SetRangeUser(-25,25)
+        h_eff_rebinned.Draw("colz")
+        ps.save(plot_name+"_smallerRange_rebinned")
+
 
 printout = "\nDone! Outputs are at %s" % ps.plot_dir
 if ps.plot_dir.startswith('/publicweb/') :
