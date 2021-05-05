@@ -1,7 +1,19 @@
 from block_class import block_obj
 
-blocksDec2020 = [
+blocksDec2019 = [
+    block_obj("Chewie_Runs17948_17952", "113_Dec19", angle=0),
+]
 
+blocksSpring2020 = [
+    block_obj("Chewie_Runs28697_28708", "114_Sp20", angle=0),
+    block_obj("Chewie_Runs28709_28719", "114_Sp20", angle=15),
+    block_obj("Chewie_Runs28736_28867", "116_Sp20", angle=0),
+    block_obj("Chewie_Runs28898_28915", "116_Sp20", angle=20),
+    block_obj("Chewie_Runs28883_28897", "116_Sp20", angle=24),
+    block_obj("Chewie_Runs28869_28882", "116_Sp20", angle=29),
+]
+
+blocksDec2020 = [
     block_obj("Chewie_Runs31435_31510", "135", angle=4), 
     block_obj("Chewie_Runs31533_31555", "180", angle=4), 
     block_obj("Chewie_Runs31590_31598", "180", angle=6), 
@@ -9,19 +21,22 @@ blocksDec2020 = [
     block_obj("Chewie_Runs31615_31619", "180", angle=10), 
     block_obj("Chewie_Runs31645_31649", "180", angle=16), 
     block_obj("Chewie_Runs31655_31660", "180", angle=20), 
-    block_obj("Chewie_Runs31681_31691", "194", angle=0), 
-    block_obj("Chewie_Runs31692_31715", "194", angle=0, duplicate=1),
-    block_obj("Chewie_Runs32658_32662", "194", angle=0, duplicate=2),
-    block_obj("Chewie_Runs31716_31718", "194", angle=0, duplicate=3), 
-    block_obj("Chewie_Runs31816_31826", "194", angle=0, duplicate=4),
-    block_obj("Chewie_Runs31831_31835", "194", angle=0, duplicate=5),
+
+    block_obj("Chewie_Runs31681_32662", "194", angle=0, duplicate=0),
+    #block_obj("Chewie_Runs31692_31715", "194", angle=0, duplicate=0),
+    #block_obj("Chewie_Runs31681_31691", "194", angle=0, duplicate=1), 
+    #block_obj("Chewie_Runs32658_32662", "194", angle=0, duplicate=2),
+    #block_obj("Chewie_Runs31716_31718", "194", angle=0, duplicate=3), 
+    #block_obj("Chewie_Runs31816_31826", "194", angle=0, duplicate=4),
+    #block_obj("Chewie_Runs31831_31835", "194", angle=0, duplicate=5),
     block_obj("Chewie_Runs31719_31724", "194", angle=4),
     block_obj("Chewie_Runs32663_32670", "194", angle=4, duplicate=1),
     block_obj("Chewie_Runs31725_31729", "194", angle=8),
     block_obj("Chewie_Runs32672_32679", "194", angle=8, duplicate=1),
     block_obj("Chewie_Runs31731_31737", "194", angle=10),
-    block_obj("Chewie_Runs31738_31744", "194", angle=12),
-    block_obj("Chewie_Runs32680_32686", "194", angle=12, duplicate=1),
+    block_obj("Chewie_Run31738", "194", angle=12, duplicate=0),
+    #block_obj("Chewie_Runs32680_32686", "194", angle=12, duplicate=0),
+    #block_obj("Chewie_Runs31738_31744", "194", angle=12, duplicate=1), # weirdly less efficient than the neighboring angles?
     block_obj("Chewie_Runs31745_31750", "194", angle=14),
     block_obj("Chewie_Runs31751_31756", "194", angle=15),
     block_obj("Chewie_Runs32688_32694", "194", angle=16), 
@@ -29,13 +44,16 @@ blocksDec2020 = [
     block_obj("Chewie_Runs31770_31775", "194", angle=17),
     block_obj("Chewie_Runs31776_31781", "194", angle=18),
     block_obj("Chewie_Runs31782_31788", "194", angle=19),
+    #block_obj("Chewie_Run32695", "194", angle=20), 
     block_obj("Chewie_Runs32695_32701", "194", angle=20), 
     block_obj("Chewie_Runs31803_31808", "194", angle=22),
-    block_obj("Chewie_Runs32702_32703", "194", angle=24), 
-    block_obj("Chewie_Runs31809_31815", "194", angle=24, duplicate=1),
+    block_obj("Chewie_Runs31809_31815", "194", angle=24),
+    #block_obj("Chewie_Runs32702_32703", "194", angle=24), 
+    #block_obj("Chewie_Runs31809_31815", "194", angle=24, duplicate=1),
     block_obj("Chewie_Runs31855_31860", "186", angle=4), 
     block_obj("Chewie_Runs31975_32138", "193", angle=0),
-    block_obj("Chewie_Runs31999_32005", "193", angle=2),
+    block_obj("Chewie_Run31999", "193", angle=2),
+    #block_obj("Chewie_Runs31999_32005", "193", angle=2),
     block_obj("Chewie_Runs32006_32016", "193", angle=4),
     block_obj("Chewie_Runs32017_32022", "193", angle=6),
     block_obj("Chewie_Runs32024_32028", "193", angle=7),
@@ -120,3 +138,22 @@ blocksFeb2021 = [
         #"IT1_0" : "Chewie_Runs33067_33071", # diff leakage current ignore for now
         #"IT1_20" : "Chewie_Runs33170_33180", # identical but higher counts/spill, ignore for now
         #"184_24" : "Chewie_Runs32995_33009", # identical to Chewie_Runs32998_33009 but three extra runs!
+
+blocksMarch2021 = [
+    block_obj("Chewie_Runs35813_35821", "IT19", angle=16),
+    block_obj("Chewie_Runs35823_35825", "IT19", angle=18),
+    block_obj("Chewie_Runs35826_35829", "IT19", angle=20),
+    block_obj("Chewie_Runs35830_35831", "IT19", angle=0),
+]
+
+blocksApril2021 = [
+    block_obj("Chewie_Runs44807_44818", "116", angle=0),
+    block_obj("Chewie_Runs44820_44823", "116", angle=0, duplicate=1),
+    block_obj("Chewie_Runs44841_44867", "116", angle=4),
+    block_obj("Chewie_Runs44872_44882", "116", angle=8),
+    block_obj("Chewie_Runs44883_44906", "116", angle=10),
+    block_obj("Chewie_Runs44915_44924", "116", angle=12),
+    block_obj("Chewie_Runs44931_44934", "116", angle=16),
+    block_obj("Chewie_Runs44948_44957", "116", angle=18),
+    block_obj("Chewie_Runs44964_44980", "116", angle=20),
+]
