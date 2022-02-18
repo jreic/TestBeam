@@ -19,6 +19,28 @@ if len(sys.argv) > 1 :
 if filter_str == "IT5_bias_scan_Feb2021" :
     scan_type = "bias"
 
+if filter_str == "MJ209_bias_scan_0deg_Nov2021" :
+    plot_dir_name = "summary"
+    scan_type = "bias"
+elif filter_str == "MJ209_bias_scan_12deg_Nov2021" :
+    plot_dir_name = "summary"
+    scan_type = "bias"
+elif filter_str == "MJ209_angle_scan_65V_Nov2021" :
+    plot_dir_name = "summary"
+    scan_type = "angle"
+
+if filter_str == "MJ114_bias_scans_Dec2021" :
+    plot_dir_name = "summary"
+    scan_type = "bias"
+
+if filter_str == "MJ116_bias_scans_Dec2021" :
+    plot_dir_name = "summary"
+    scan_type = "bias"
+
+if filter_str == "CNM3D_bias_scans_Dec2021" :
+    plot_dir_name = "summary"
+    scan_type = "bias"
+
 if "Dec2020" in filter_str :
     from block_list import blocksDec2020 as blocks
 elif "Feb2021" in filter_str :
@@ -26,19 +48,24 @@ elif "Feb2021" in filter_str :
 elif "3D" in filter_str :
     from block_list import blocksDec2019
     from block_list import blocksDec2020
-    #blocks = blocksDec2020
     from block_list import blocksSpring2020
     from block_list import blocksMarch2021
     blocks = blocksDec2019 + blocksDec2020 + blocksSpring2020 + blocksMarch2021
 if "April2021" in filter_str :
     from block_list import blocksApril2021 as blocks
+if "June2021" in filter_str :
+    from block_list import blocksJune2021 as blocks
+if "Nov2021" in filter_str :
+    from block_list import blocksNov2021 as blocks
+if "Dec2021" in filter_str :
+    from block_list import blocksDec2021 as blocks
 
 plot_dir_name += "_"+filter_str
 
 show_sensor_info = True if filter_str else False
 fit_size_2 = True
 fit_charge = False
-subtract_telescope = True
+subtract_telescope = False
 
 ps = plot_saver(plot_dir(plot_dir_name), size=(600,600), log=False, pdf=True, pdf_log=False)
 
@@ -56,6 +83,8 @@ plot_paths = [
               ,"Charge/Dut0/Landau/hLandauClusterSizeUpToMax_Dut0"
               ,"Efficiency/Dut0/Efficiency/Efficiency_Dut0"
               ,"Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0"
+              ,"Efficiency/Dut0/Efficiency/EfficiencyNorm_Dut0"
+              ,"Efficiency/Dut0/Efficiency/EfficiencyRefNorm_Dut0"
              ]
 
 invalid_blocks = []
@@ -74,6 +103,7 @@ for plot_path in plot_paths :
     plot_title = plot_title.replace("ClusterSize","Cluster size")
     plot_title = plot_title.replace("Efficiency","Overall efficiency")
     plot_title = plot_title.replace("Ref"," ref.")
+    plot_title = plot_title.replace("Norm"," denominator")
     plot_title = plot_title.replace("Dut0","")
 
     #basepath = "~/publicweb/TFPX/"
@@ -104,7 +134,17 @@ for plot_path in plot_paths :
         ordering = ["193","194"]
         maxresidual = 20
     elif filter_str == "April2021" :
+        ordering = ["116","207"]
+    elif filter_str == "June2021" :
+        ordering = ["IT4"]
+    elif "Nov2021" in filter_str :
+        ordering = ["209"]
+    elif filter_str == "MJ114_bias_scans_Dec2021" :
+        ordering = ["114"]
+    elif filter_str == "MJ116_bias_scans_Dec2021" :
         ordering = ["116"]
+    elif "Dec2021" in filter_str :
+        ordering = ["114","116"]
 
     largest_duplicate = 0
     sorted_blocks = []
@@ -118,6 +158,18 @@ for plot_path in plot_paths :
                     if block.sensor_name == "IT5irrad" and block.bias != 200 : continue
                 if filter_str == "IT5_bias_scan_Feb2021" :
                     if block.angle != 0 : continue
+                if filter_str == "MJ209_bias_scan_0deg_Nov2021" :
+                    if block.angle != 0 : continue
+                if filter_str == "MJ209_bias_scan_12deg_Nov2021" :
+                    if block.angle != 12 : continue
+                if filter_str == "MJ209_angle_scan_65V_Nov2021" :
+                    if block.bias != 65 : continue
+                if "bias_scans_Dec2021" in filter_str :
+                    if block.angle != 0 : continue
+                if filter_str == "MJ114_bias_scans_Dec2021" :
+                    if block.sensor_name != "114" : continue
+                if filter_str == "MJ116_bias_scans_Dec2021" :
+                    if block.sensor_name != "116" : continue
                 #if block.angle > 8 : continue
 
                 fpath = os.path.expanduser(basepath+block.run_range+".root") # to expand the ~
@@ -141,12 +193,10 @@ for plot_path in plot_paths :
         varlabels = ["%sV" % var for var in variations]
 
     n_vars = len(variations)
-    #colors = [ROOT.kRed,ROOT.kOrange+1,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4,ROOT.kOrange,ROOT.kRed-2,ROOT.kBlue-2,ROOT.kSpring+4,ROOT.kGray+2,ROOT.kViolet+2, ROOT.kPink+1]
     colors = [ROOT.kRed,ROOT.kBlue,ROOT.kGreen+2,ROOT.kViolet-3,ROOT.kOrange-6,ROOT.kCyan+1,ROOT.kMagenta,ROOT.kTeal+5,ROOT.kAzure+2,ROOT.kYellow+2,ROOT.kSpring,ROOT.kGray,ROOT.kAzure-4,ROOT.kOrange,ROOT.kRed-2,ROOT.kBlue-2,ROOT.kSpring+4,ROOT.kGray+2,ROOT.kViolet+2, ROOT.kPink+1]
-    #colors = [ROOT.kGray,ROOT.kBlack,ROOT.kRed,ROOT.kGreen,ROOT.kBlue,ROOT.kYellow+1,ROOT.kMagenta,ROOT.kCyan,ROOT.kOrange,ROOT.kSpring,ROOT.kTeal,ROOT.kAzure,ROOT.kViolet,ROOT.kPink] # FIXME add more on to here
 
-    # FIXME if doing a bias scan, should modify this so we don't have 100+ bins, and instead subdivide better
-    nbins = max(variations)+1
+    # FIXME in the future if doing a bias scan, we could modify this so we don't have 100+ bins, and instead subdivide better
+    nbins = int(max(variations))+1
 
     hists = []
 
@@ -162,8 +212,21 @@ for plot_path in plot_paths :
         if filter_str == "FBK3D" :
             if sensor == "193"  : sensor_name_for_legend += " (25x100)"
             if sensor == "194"  : sensor_name_for_legend += " (50x50)"
+
+        if filter_str == "MJ209_bias_scan_0deg_Nov2021" :
+            sensor_name_for_legend += " (0#circ)"
+        elif filter_str == "MJ209_bias_scan_12deg_Nov2021" :
+            sensor_name_for_legend += " (12#circ)"
+        elif filter_str == "MJ209_angle_scan_65V_Nov2021" :
+            sensor_name_for_legend += " (-65V)"
+
+        if "bias_scans_Dec2021" in filter_str :
+            if   sensor == "114" : sensor_name_for_legend += " (1650e)"
+            elif sensor == "116" : sensor_name_for_legend += " (2100e)"
+
         out_hist = ROOT.TH1F(out_hist_name, sensor_name_for_legend, nbins, 0, nbins)
-        out_hist.GetXaxis().SetTitle("angle (#circ)")
+        if scan_type == "angle"  : out_hist.GetXaxis().SetTitle("angle (#circ)")
+        elif scan_type == "bias" : out_hist.GetXaxis().SetTitle("bias (-V)")
         hists.append(out_hist)
 
         for block in sorted_blocks :
@@ -175,7 +238,8 @@ for plot_path in plot_paths :
             h = f.Get(plot_path)
             if not issubclass(type(h),ROOT.TH1) : continue
 
-            output_bin = out_hist.FindBin(block.angle)
+            if scan_type == "angle"  : output_bin = out_hist.FindBin(block.angle)
+            elif scan_type == "bias" : output_bin = out_hist.FindBin(block.bias)
 
             if "Landau" in plot_name and h.GetEntries() > 0 and fit_charge :
                 langaus = ROOT.langausFit(h)
@@ -240,7 +304,7 @@ for plot_path in plot_paths :
 
                 out_hist.SetBinContent(output_bin,rms)
                 out_hist.SetBinError(output_bin,rmserr)
-            elif "Efficiency" in plot_name :
+            elif "Efficiency" in plot_name and not "Norm" in plot_name :
                 h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
                 nevents = h_norm.GetBinContent(1)
                 eff = h.GetBinContent(1)
@@ -249,6 +313,12 @@ for plot_path in plot_paths :
 
                 out_hist.SetBinContent(output_bin,eff)
                 out_hist.SetBinError(output_bin,max_err)
+            elif "Efficiency" in plot_name and "Norm" in plot_name :
+                h_norm = f.Get(plot_path)
+                nevents = h_norm.GetBinContent(1)
+
+                out_hist.SetBinContent(output_bin,nevents)
+                out_hist.SetBinError(output_bin,math.sqrt(nevents))
             else :
                 mean = h.GetMean()
                 rms = h.GetRMS()
@@ -276,9 +346,11 @@ for plot_path in plot_paths :
             else :
                 y_axis_title = "average charge #pm RMS (electrons)"
             out_hist.GetYaxis().SetRangeUser(0,25000)
-        elif "Efficiency" in plot_name :
+        elif "Efficiency" in plot_name and not "Norm" in plot_name :
             y_axis_title = "efficiency"
             out_hist.GetYaxis().SetRangeUser(0.98,eff_ymax)
+        elif "Efficiency" in plot_name and "Norm" in plot_name :
+            y_axis_title = "n_tracks"
 
         out_hist.SetLineColor(colors[index])
         out_hist.SetMarkerColor(colors[index])
@@ -292,7 +364,7 @@ for plot_path in plot_paths :
             out_hist.GetYaxis().SetTitleOffset(2.1)
         else :
             out_hist.GetYaxis().SetTitleOffset(1.5)
-        out_hist.SetMarkerStyle(24)
+        out_hist.SetMarkerStyle(20)
         out_hist.SetMarkerSize(1)
         out_hist.SetLineWidth(2)
 
@@ -333,14 +405,17 @@ for plot_path in plot_paths :
     ps.update_canvas()
 
     primitives = ps.c.GetListOfPrimitives()
-    primitives[1].SetTitle(plot_title)
+    primitive_hist = None
+    for primitive in primitives :
+        if issubclass(type(primitive), ROOT.TH1) :
+            primitive_hist = primitive
+    primitive_hist.SetTitle(plot_title)
     primitives.Remove(primitives.FindObject("title"))
     ps.update_canvas()
 
-    ps.update_canvas()
     ps.save(plot_name)
 
-    if "Efficiency" in plot_name :
+    if "Efficiency" in plot_name and not "Norm" in plot_name :
         hists[0].GetYaxis().SetRangeUser(0.8,eff_ymax)
         # I expected that ps.c.GetUymin/max would work, but it didn't for these so I hardcode instead
         #lines = drawLines(ps, hists[0], ordering, variations, 0.8, eff_ymax)
