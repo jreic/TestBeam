@@ -1,6 +1,9 @@
 from ROOTTools import *
 import sys
 
+zoom_residuals_size_2 = False
+
+ROOT.gROOT.SetBatch(True)
 ROOT.gStyle.SetOptFit(0o0100) # adds Landau MPV to stat box
 ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 ROOT.gErrorIgnoreLevel = ROOT.kWarning
@@ -10,7 +13,7 @@ filename = filepath.split("/")[-1]
 
 # to save our plots
 #ps = plot_saver(plot_dir("Spring2020/"+filename.split(".")[0]), size=(600,600), log=False, pdf=False)
-ps = plot_saver(plot_dir(filename.split(".")[0]), size=(600,600), log=False, pdf=False)
+ps = plot_saver(plot_dir(filename.split(".")[0]), size=(600,600), log=False, pdf=True)
 
 # the ROOT file
 f = ROOT.TFile(filepath)
@@ -30,6 +33,8 @@ plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefZoomedIn50x50_Dut0"
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNormZoomedIn50x50_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefZoomedIn25x100_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNormZoomedIn25x100_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DClusterHitPositionSize1_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DClusterHitPositionSize2_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiency_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyRef_Dut0")
 plot_paths.append("Efficiency/Dut0/CellEfficiency/hCellEfficiencyNorm_Dut0")
@@ -48,7 +53,12 @@ plot_paths.append("Resolution/Dut0/XResiduals/hXResidualsDigital_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsDigital_Dut0")
 plot_paths.append("Resolution/Dut0/Errors/hPredictedXErrors_Dut0")
 plot_paths.append("Resolution/Dut0/Errors/hPredictedYErrors_Dut0")
+plot_paths.append("Resolution/Dut0/Correlations/hCorrelationsResidualXvsX_Dut0")
+plot_paths.append("Resolution/Dut0/Correlations/hCorrelationsResidualXvsY_Dut0")
+plot_paths.append("Resolution/Dut0/Correlations/hCorrelationsResidualYvsX_Dut0")
+plot_paths.append("Resolution/Dut0/Correlations/hCorrelationsResidualYvsY_Dut0")
 plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize_Dut0")
+plot_paths.append("Charge/Dut0/ClusterSize/hClusterSizeShape_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hCellLandau_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpTo4_Dut0")
 plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpToMax_Dut0")
@@ -69,69 +79,38 @@ plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn50x50_Dut0")
 plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRefZoomedIn25x100_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellCharge_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeSize1_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeSize1Norm_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeSize2_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeSize2Norm_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeQ1x_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeQ1y_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeQ2x_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeQ2y_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DClusterSize_Dut0")
 plot_paths.append("Charge/Dut0/XAsymmetry/h1DXcellChargeAsymmetryInv_Dut0")
 plot_paths.append("Charge/Dut0/YAsymmetry/h1DYcellChargeAsymmetryInv_Dut0")
 
-# Telescope residuals
-plot_paths.append("Resolution/Strip_Telescope_Upstream0/XResiduals/hXResiduals_Strip_Telescope_Upstream0")
-plot_paths.append("Resolution/Strip_Telescope_Upstream0/YResiduals/hYResiduals_Strip_Telescope_Upstream0")
-plot_paths.append("Resolution/Strip_Telescope_Upstream1/XResiduals/hXResiduals_Strip_Telescope_Upstream1")
-plot_paths.append("Resolution/Strip_Telescope_Upstream1/YResiduals/hYResiduals_Strip_Telescope_Upstream1")
-plot_paths.append("Resolution/Strip_Telescope_Upstream2/XResiduals/hXResiduals_Strip_Telescope_Upstream2")
-plot_paths.append("Resolution/Strip_Telescope_Upstream2/YResiduals/hYResiduals_Strip_Telescope_Upstream2")
-plot_paths.append("Resolution/Strip_Telescope_Upstream3/XResiduals/hXResiduals_Strip_Telescope_Upstream3")
-plot_paths.append("Resolution/Strip_Telescope_Upstream3/YResiduals/hYResiduals_Strip_Telescope_Upstream3")
-plot_paths.append("Resolution/Strip_Telescope_Upstream4/XResiduals/hXResiduals_Strip_Telescope_Upstream4")
-plot_paths.append("Resolution/Strip_Telescope_Upstream4/YResiduals/hYResiduals_Strip_Telescope_Upstream4")
-plot_paths.append("Resolution/Strip_Telescope_Upstream5/XResiduals/hXResiduals_Strip_Telescope_Upstream5")
-plot_paths.append("Resolution/Strip_Telescope_Upstream5/YResiduals/hYResiduals_Strip_Telescope_Upstream5")
-plot_paths.append("Resolution/Strip_Telescope_Upstream6/XResiduals/hXResiduals_Strip_Telescope_Upstream6")
-plot_paths.append("Resolution/Strip_Telescope_Upstream6/YResiduals/hYResiduals_Strip_Telescope_Upstream6")
-plot_paths.append("Resolution/Strip_Telescope_Upstream7/XResiduals/hXResiduals_Strip_Telescope_Upstream7")
-plot_paths.append("Resolution/Strip_Telescope_Upstream7/YResiduals/hYResiduals_Strip_Telescope_Upstream7")
-plot_paths.append("Resolution/Telescope_Downstream0/XResiduals/hXResiduals_Telescope_Downstream0")
-plot_paths.append("Resolution/Telescope_Downstream0/YResiduals/hYResiduals_Telescope_Downstream0")
-plot_paths.append("Resolution/Telescope_Downstream1/XResiduals/hXResiduals_Telescope_Downstream1")
-plot_paths.append("Resolution/Telescope_Downstream1/YResiduals/hYResiduals_Telescope_Downstream1")
-plot_paths.append("Resolution/Telescope_Downstream2/XResiduals/hXResiduals_Telescope_Downstream2")
-plot_paths.append("Resolution/Telescope_Downstream2/YResiduals/hYResiduals_Telescope_Downstream2")
-plot_paths.append("Resolution/Telescope_Downstream3/XResiduals/hXResiduals_Telescope_Downstream3")
-plot_paths.append("Resolution/Telescope_Downstream3/YResiduals/hYResiduals_Telescope_Downstream3")
-plot_paths.append("Resolution/Strip_Telescope_Downstream0/XResiduals/hXResiduals_Strip_Telescope_Downstream0")
-plot_paths.append("Resolution/Strip_Telescope_Downstream0/YResiduals/hYResiduals_Strip_Telescope_Downstream0")
-plot_paths.append("Resolution/Strip_Telescope_Downstream1/XResiduals/hXResiduals_Strip_Telescope_Downstream1")
-plot_paths.append("Resolution/Strip_Telescope_Downstream1/YResiduals/hYResiduals_Strip_Telescope_Downstream1")
-plot_paths.append("Resolution/Strip_Telescope_Downstream2/XResiduals/hXResiduals_Strip_Telescope_Downstream2")
-plot_paths.append("Resolution/Strip_Telescope_Downstream2/YResiduals/hYResiduals_Strip_Telescope_Downstream2")
-plot_paths.append("Resolution/Strip_Telescope_Downstream3/XResiduals/hXResiduals_Strip_Telescope_Downstream3")
-plot_paths.append("Resolution/Strip_Telescope_Downstream3/YResiduals/hYResiduals_Strip_Telescope_Downstream3")
-plot_paths.append("Resolution/Strip_Telescope_Downstream4/XResiduals/hXResiduals_Strip_Telescope_Downstream4")
-plot_paths.append("Resolution/Strip_Telescope_Downstream4/YResiduals/hYResiduals_Strip_Telescope_Downstream4")
-plot_paths.append("Resolution/Strip_Telescope_Downstream5/XResiduals/hXResiduals_Strip_Telescope_Downstream5")
-plot_paths.append("Resolution/Strip_Telescope_Downstream5/YResiduals/hYResiduals_Strip_Telescope_Downstream5")
-plot_paths.append("Resolution/Strip_Telescope_Downstream6/XResiduals/hXResiduals_Strip_Telescope_Downstream6")
-plot_paths.append("Resolution/Strip_Telescope_Downstream6/YResiduals/hYResiduals_Strip_Telescope_Downstream6")
-plot_paths.append("Resolution/Strip_Telescope_Downstream7/XResiduals/hXResiduals_Strip_Telescope_Downstream7")
-plot_paths.append("Resolution/Strip_Telescope_Downstream7/YResiduals/hYResiduals_Strip_Telescope_Downstream7")
-
 for plot_path in plot_paths :
+    ROOT.gStyle.SetOptTitle(1)
     h = f.Get(plot_path)
     if not h : 
         print("%s not found, skipping" % plot_path)
         continue
     plot_name = plot_path.split("/")[-1]
 
-    if "2DCharge" in plot_name or "2DCellCharge" in plot_name :
-        #h.SetMaximum(5000) # I think this was for MJ13, where 5k electrons really was a sensible maximum...
+    if ("2DCharge" in plot_name or "2DCellCharge" in plot_name) and (not "Norm" in plot_name) :
+        #h.SetMaximum(16500) # I think this was for MJ13, where 5k electrons really was a sensible maximum...
         pass
     elif "h2DClusterSize_Dut0" in plot_name :
         h.SetMinimum(1)
         h.SetMaximum(2)
-    elif ("CellEfficiency" in plot_name or "2DEfficiency" in plot_name) and not "Norm" in plot_name :
-        h.SetMinimum(0)
-        h.SetMaximum(1)
+    elif ("CellEfficiency" in plot_name or "2DEfficiency" in plot_name) :
+        if "Norm" in plot_name :
+            h.SetMinimum(0)
+        else :
+            h.SetMinimum(0)
+            h.SetMaximum(1.0)
+            pass
 
     # Plot TH2's with colz and no stat box
     if issubclass(type(h), ROOT.TH2) :
@@ -148,14 +127,40 @@ for plot_path in plot_paths :
             langaus = ROOT.langausFit(h)
             fit = h.Fit(langaus, "RBLSQ")
             h.GetXaxis().SetRangeUser(0, 25000)
+            #h.GetXaxis().SetRangeUser(0, 50000)
+            #h.GetXaxis().SetMaxDigits(3)
             h.Draw()
         elif "Predicted" in plot_name and "Errors" in plot_name :
             h.GetXaxis().SetRangeUser(3, 6)
             h.Draw()
         elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
-            gauspol0 = ROOT.fitGausPol0(h)
-            fit = h.Fit(gauspol0, "RBLSQ")
-            h.Draw()
+            if zoom_residuals_size_2 :
+                ROOT.gStyle.SetOptTitle(0)
+                h.Scale(1./h.Integral())
+                gauspol0 = ROOT.fitGausPol0(h)
+                fit = h.Fit(gauspol0, "RBLSQ","",-30,30)
+                fithist = h.GetFunction("gauspol0")
+                sigma = fit.Parameter(2)
+                h.SetStats(0)
+                h.SetTitle("Data")
+                h.SetLineWidth(2)
+                h.SetLineColor(ROOT.kBlack)
+                h.Draw()
+                h.GetXaxis().SetRangeUser(-25,25)
+                if "X" in h.GetName() :
+                    pass
+                    #h.GetXaxis().SetTitle("x residual w.r.t. midpoint (#mum)")
+                else :
+                    pass
+                    #h.GetXaxis().SetTitle("y residual w.r.t. midpoint (#mum)")
+                h.GetYaxis().SetTitle("a.u.")
+                h.GetYaxis().SetTitleOffset(1.5)
+                leg = ps.c.BuildLegend(0.6,0.7,0.9,0.9)
+                leg.AddEntry(fithist, "Fit (#sigma = %.1f #mum)" % round(sigma,1), "l")
+            else : 
+                gauspol0 = ROOT.fitGausPol0(h)
+                fit = h.Fit(gauspol0, "RBLSQ")
+                h.Draw()
         elif "ChargeAsymmetryInv" in plot_name and h.GetEntries() > 0 :
             h.Fit("pol1", "RQ", "", -0.5, 0.5)
             ROOT.gStyle.SetStatH(0.1)
@@ -183,7 +188,7 @@ for plot_path in plot_paths :
     if ("CellEfficiency" in plot_name or "cellEfficiency" in plot_name) and not "Norm" in plot_name :
         ps.c.Clear()
         hclone = h.Clone(plot_name+"_smallerRange")
-        hclone.SetMinimum(0.9)
+        hclone.SetMinimum(0.8)
         hclone.SetMaximum(1.0)
         hclone.Draw("colz")
         ps.save(plot_name+"_smallerRange")
