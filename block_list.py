@@ -156,4 +156,56 @@ blocksApril2021 = [
     block_obj("Chewie_Runs44931_44934", "116", angle=16),
     block_obj("Chewie_Runs44948_44957", "116", angle=18),
     block_obj("Chewie_Runs44964_44980", "116", angle=20),
+    block_obj("Chewie_Runs45201_45225", "207", angle=0),
+    block_obj("Chewie_Runs45226_45238", "207", angle=4),
+    block_obj("Chewie_Runs45239_45252", "207", angle=8),
+    block_obj("Chewie_Runs45253_45258", "207", angle=10),
+    block_obj("Chewie_Runs45259_45269", "207", angle=12),
+    block_obj("Chewie_Runs45282_45297", "207", angle=16),
+    block_obj("Chewie_Runs45304_45321", "207", angle=18),
+]
+
+blocksJune2021 = [
+    block_obj("Chewie_Runs46227_46242", "IT4", angle=0),
+    block_obj("Chewie_Runs46243_46251", "IT4", angle=4),
+    block_obj("Chewie_Runs46252_46265", "IT4", angle=8),
+    block_obj("Chewie_Runs46266_46269", "IT4", angle=10),
+    block_obj("Chewie_Runs46271_46284", "IT4", angle=16),
+    block_obj("Chewie_Runs46285_46303", "IT4", angle=18),
+    block_obj("Chewie_Runs46304_46319", "IT4", angle=20),
+]
+
+blocksNov2021 = [
+    #block_obj("Chewie_Runs46840_46867", "209", angle=0, bias=65), # different Vth
+    block_obj("Chewie_Runs46868_46885", "209", angle=0, bias=65),
+    block_obj("Chewie_Runs46887_46892", "209", angle=4, bias=65),
+    block_obj("Chewie_Runs46893_46897", "209", angle=8, bias=65),
+    block_obj("Chewie_Runs46898_46902", "209", angle=12, bias=65),
+    block_obj("Chewie_Runs46903_46906", "209", angle=0, bias=70),
+    block_obj("Chewie_Runs46907_46910", "209", angle=12, bias=70),
+    block_obj("Chewie_Runs46911_46914", "209", angle=12, bias=35),
+    block_obj("Chewie_Runs46915_46918", "209", angle=0, bias=35),
+    block_obj("Chewie_Runs46919_46922", "209", angle=0, bias=10),
+    block_obj("Chewie_Runs46923_46926", "209", angle=12, bias=10),
+    block_obj("Chewie_Runs46927_46930", "209", angle=12, bias=20),
+    block_obj("Chewie_Runs46931_46934", "209", angle=0, bias=20),
+]
+
+blocksDec2021 = [
+    block_obj("Chewie_Runs51933_51935", "116", angle=0, bias=97.2),# bias=100),
+    block_obj("Chewie_Runs51936_51938", "116", angle=0, bias=77.7),# bias=80),
+    block_obj("Chewie_Runs51940_51943", "116", angle=0, bias=58.0),# bias=60),
+    block_obj("Chewie_Runs51944_51946", "116", angle=0, bias=38.3),# bias=40),
+    block_obj("Chewie_Runs51947_51950", "116", angle=0, bias=28.6),# bias=30),
+    block_obj("Chewie_Runs51951_51953", "116", angle=0, bias=18.8),# bias=20),
+    block_obj("Chewie_Runs51954_51956", "116", angle=0, bias=9.2),
+    block_obj("Chewie_Runs51957_51959", "116", angle=0, bias=0),
+
+    #block_obj("Chewie_Runs52114_52115", "114", angle=0, bias=41.4),# bias=50), # this block initially had poor efficiencies due to Merger errors--have since been fixed, but we anyway have another block w/ same conditions below
+    block_obj("Chewie_Runs52116_52117", "114", angle=0, bias=32.7),# bias=40),
+    block_obj("Chewie_Runs52118_52119", "114", angle=0, bias=24.0),# bias=30),
+    block_obj("Chewie_Runs52120_52122", "114", angle=0, bias=14.1),# bias=20),
+    block_obj("Chewie_Runs52123_52124", "114", angle=0, bias=6.8),# bias=10),
+    block_obj("Chewie_Runs52125_52127", "114", angle=0, bias=0),# bias=0),
+    block_obj("Chewie_Runs52128_52132", "114", angle=0, bias=41.3),# bias=50),
 ]
