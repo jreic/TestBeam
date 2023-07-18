@@ -89,6 +89,71 @@ plot_paths.append("Charge/Dut0/2DCellCharge/h2DCellChargeQ2y_Dut0")
 plot_paths.append("Charge/Dut0/2DCellCharge/h2DClusterSize_Dut0")
 plot_paths.append("Charge/Dut0/XAsymmetry/h1DXcellChargeAsymmetryInv_Dut0")
 plot_paths.append("Charge/Dut0/YAsymmetry/h1DYcellChargeAsymmetryInv_Dut0")
+plot_paths.append("Resolution/Strip_Telescope_Upstream0/XResiduals/hXResiduals_Strip_Telescope_Upstream0")
+plot_paths.append("Resolution/Strip_Telescope_Upstream0/YResiduals/hYResiduals_Strip_Telescope_Upstream0")
+plot_paths.append("Resolution/Strip_Telescope_Upstream1/XResiduals/hXResiduals_Strip_Telescope_Upstream1")
+plot_paths.append("Resolution/Strip_Telescope_Upstream1/YResiduals/hYResiduals_Strip_Telescope_Upstream1")
+plot_paths.append("Resolution/Strip_Telescope_Upstream2/XResiduals/hXResiduals_Strip_Telescope_Upstream2")
+plot_paths.append("Resolution/Strip_Telescope_Upstream2/YResiduals/hYResiduals_Strip_Telescope_Upstream2")
+plot_paths.append("Resolution/Strip_Telescope_Upstream3/XResiduals/hXResiduals_Strip_Telescope_Upstream3")
+plot_paths.append("Resolution/Strip_Telescope_Upstream3/YResiduals/hYResiduals_Strip_Telescope_Upstream3")
+plot_paths.append("Resolution/Strip_Telescope_Upstream4/XResiduals/hXResiduals_Strip_Telescope_Upstream4")
+plot_paths.append("Resolution/Strip_Telescope_Upstream4/YResiduals/hYResiduals_Strip_Telescope_Upstream4")
+plot_paths.append("Resolution/Strip_Telescope_Upstream5/XResiduals/hXResiduals_Strip_Telescope_Upstream5")
+plot_paths.append("Resolution/Strip_Telescope_Upstream5/YResiduals/hYResiduals_Strip_Telescope_Upstream5")
+plot_paths.append("Resolution/Strip_Telescope_Upstream6/XResiduals/hXResiduals_Strip_Telescope_Upstream6")
+plot_paths.append("Resolution/Strip_Telescope_Upstream6/YResiduals/hYResiduals_Strip_Telescope_Upstream6")
+plot_paths.append("Resolution/Strip_Telescope_Upstream7/XResiduals/hXResiduals_Strip_Telescope_Upstream7")
+plot_paths.append("Resolution/Strip_Telescope_Upstream7/YResiduals/hYResiduals_Strip_Telescope_Upstream7")
+plot_paths.append("Resolution/Telescope_Downstream0/XResiduals/hXResiduals_Telescope_Downstream0")
+plot_paths.append("Resolution/Telescope_Downstream0/YResiduals/hYResiduals_Telescope_Downstream0")
+plot_paths.append("Resolution/Telescope_Downstream1/XResiduals/hXResiduals_Telescope_Downstream1")
+plot_paths.append("Resolution/Telescope_Downstream1/YResiduals/hYResiduals_Telescope_Downstream1")
+plot_paths.append("Resolution/Telescope_Downstream2/XResiduals/hXResiduals_Telescope_Downstream2")
+plot_paths.append("Resolution/Telescope_Downstream2/YResiduals/hYResiduals_Telescope_Downstream2")
+plot_paths.append("Resolution/Telescope_Downstream3/XResiduals/hXResiduals_Telescope_Downstream3")
+plot_paths.append("Resolution/Telescope_Downstream3/YResiduals/hYResiduals_Telescope_Downstream3")
+plot_paths.append("Resolution/Strip_Telescope_Downstream0/XResiduals/hXResiduals_Strip_Telescope_Downstream0")
+plot_paths.append("Resolution/Strip_Telescope_Downstream0/YResiduals/hYResiduals_Strip_Telescope_Downstream0")
+plot_paths.append("Resolution/Strip_Telescope_Downstream1/XResiduals/hXResiduals_Strip_Telescope_Downstream1")
+plot_paths.append("Resolution/Strip_Telescope_Downstream1/YResiduals/hYResiduals_Strip_Telescope_Downstream1")
+plot_paths.append("Resolution/Strip_Telescope_Downstream2/XResiduals/hXResiduals_Strip_Telescope_Downstream2")
+plot_paths.append("Resolution/Strip_Telescope_Downstream2/YResiduals/hYResiduals_Strip_Telescope_Downstream2")
+plot_paths.append("Resolution/Strip_Telescope_Downstream3/XResiduals/hXResiduals_Strip_Telescope_Downstream3")
+plot_paths.append("Resolution/Strip_Telescope_Downstream3/YResiduals/hYResiduals_Strip_Telescope_Downstream3")
+plot_paths.append("Resolution/Strip_Telescope_Downstream4/XResiduals/hXResiduals_Strip_Telescope_Downstream4")
+plot_paths.append("Resolution/Strip_Telescope_Downstream4/YResiduals/hYResiduals_Strip_Telescope_Downstream4")
+plot_paths.append("Resolution/Strip_Telescope_Downstream5/XResiduals/hXResiduals_Strip_Telescope_Downstream5")
+plot_paths.append("Resolution/Strip_Telescope_Downstream5/YResiduals/hYResiduals_Strip_Telescope_Downstream5")
+plot_paths.append("Resolution/Strip_Telescope_Downstream6/XResiduals/hXResiduals_Strip_Telescope_Downstream6")
+plot_paths.append("Resolution/Strip_Telescope_Downstream6/YResiduals/hYResiduals_Strip_Telescope_Downstream6")
+plot_paths.append("Resolution/Strip_Telescope_Downstream7/XResiduals/hXResiduals_Strip_Telescope_Downstream7")
+plot_paths.append("Resolution/Strip_Telescope_Downstream7/YResiduals/hYResiduals_Strip_Telescope_Downstream7")
+plot_paths.append("Efficiency/Dut0/Efficiency/Efficiency225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyNorm225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRefNorm225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiency225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyNorm225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRef225um_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNorm225um_Dut0")
+plot_paths.append("Resolution/Dut0/XResiduals/hXResiduals225um_Dut0")
+plot_paths.append("Resolution/Dut0/YResiduals/hYResiduals225um_Dut0")
+plot_paths.append("Charge/Dut0/ClusterSize/hClusterSize225um_Dut0")
+plot_paths.append("Charge/Dut0/2DCellCharge/h2DClusterSize225um_Dut0")
+plot_paths.append("Charge/Dut0/2DCharge/h2DCharge225um_Dut0")
+plot_paths.append("Charge/Dut0/2DCharge/h2DChargeRef225um_Dut0")
+plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpToMax225um_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize1_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize2_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize3_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize4_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize5_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize6_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize7_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize8_Dut0")
+plot_paths.append("Charge/Dut0/Landau/h225umLandauClusterSize9_Dut0")
+
 
 for plot_path in plot_paths :
     ROOT.gStyle.SetOptTitle(1)
@@ -101,7 +166,7 @@ for plot_path in plot_paths :
     if ("2DCharge" in plot_name or "2DCellCharge" in plot_name) and (not "Norm" in plot_name) :
         #h.SetMaximum(16500) # I think this was for MJ13, where 5k electrons really was a sensible maximum...
         pass
-    elif "h2DClusterSize_Dut0" in plot_name :
+    elif "h2DClusterSize_Dut0" in plot_name or "2DClusterSize225um_Dut0" in plot_name:
         h.SetMinimum(1)
         h.SetMaximum(2)
     elif ("CellEfficiency" in plot_name or "2DEfficiency" in plot_name) :
@@ -117,6 +182,11 @@ for plot_path in plot_paths :
         ps.c.SetMargin(0.12,0.14,0.12,0.10)
         if not "Zoomed" in plot_name :
             h.GetYaxis().SetTitleOffset(1.5)
+        if ("2DEfficiency" in plot_name or "2DCharge" in plot_name) and "225um" in plot_name :
+            h.GetXaxis().SetRangeUser(214,218)
+            h.SetNdivisions(505)
+            h.GetXaxis().SetTitle("col")
+            h.GetYaxis().SetTitle("row")
         h.SetStats(0)
         h.Draw("colz")
     else :
@@ -165,9 +235,15 @@ for plot_path in plot_paths :
             h.Fit("pol1", "RQ", "", -0.5, 0.5)
             ROOT.gStyle.SetStatH(0.1)
             h.Draw()
-        elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" :
+        elif plot_name == "Efficiency_Dut0" or plot_name == "EfficiencyRef_Dut0" or plot_name == "Efficiency225um_Dut0" or plot_name == "EfficiencyRef225um_Dut0":
             h.GetYaxis().SetRangeUser(0,2)
-            h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
+
+            if "225" in plot_name : 
+                # for wide pixels in 2x1 or 2x2 modules
+                h_norm = f.Get(plot_path.replace("225um_Dut0","Norm225um_Dut0"))
+            else :
+                h_norm = f.Get(plot_path.replace("_Dut0","Norm_Dut0"))
+
             nevents = h_norm.GetBinContent(1)
             eff = h.GetBinContent(1)
 
