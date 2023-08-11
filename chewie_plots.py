@@ -21,8 +21,11 @@ f = ROOT.TFile(filepath)
 # histogram paths within the ROOT file
 plot_paths = []
 plot_paths.append("Efficiency/Dut0/Efficiency/Efficiency_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyNorm_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRefNorm_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiency_Dut0")
+plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyNorm_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRef_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefNorm_Dut0")
 plot_paths.append("Efficiency/Dut0/Efficiency/2DEfficiencyRefRebinned_Dut0")
@@ -168,7 +171,7 @@ for plot_path in plot_paths :
         pass
     elif "h2DClusterSize_Dut0" in plot_name or "2DClusterSize225um_Dut0" in plot_name:
         h.SetMinimum(1)
-        h.SetMaximum(2)
+        #h.SetMaximum(2)
     elif ("CellEfficiency" in plot_name or "2DEfficiency" in plot_name) :
         if "Norm" in plot_name :
             h.SetMinimum(0)
