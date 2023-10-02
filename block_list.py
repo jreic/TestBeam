@@ -209,3 +209,12 @@ blocksDec2021 = [
     block_obj("Chewie_Runs52125_52127", "114", angle=0, bias=0),# bias=0),
     block_obj("Chewie_Runs52128_52132", "114", angle=0, bias=41.3),# bias=50),
 ]
+
+blocksDec2022 = [
+    block_obj("Chewie_Run61907", "QuadCROC", angle=0, bias=20),
+    block_obj("Chewie_Run61908", "QuadCROC", angle=0, bias=40),
+    block_obj("Chewie_Run61909", "QuadCROC", angle=0, bias=60),
+    block_obj("Chewie_Run61910", "QuadCROC", angle=0, bias=80),
+    block_obj("Chewie_Run61911", "QuadCROC", angle=0, bias=100),
+    block_obj("Chewie_Run61913", "QuadCROC", angle=0, bias=110),
+]

@@ -41,6 +41,10 @@ if filter_str == "CNM3D_bias_scans_Dec2021" :
     plot_dir_name = "summary"
     scan_type = "bias"
 
+if filter_str == "QuadCROC_bias_scans_Dec2022" :
+    plot_dir_name = "summary"
+    scan_type = "bias"
+
 if "Dec2020" in filter_str :
     from block_list import blocksDec2020 as blocks
 elif "Feb2021" in filter_str :
@@ -59,6 +63,8 @@ if "Nov2021" in filter_str :
     from block_list import blocksNov2021 as blocks
 if "Dec2021" in filter_str :
     from block_list import blocksDec2021 as blocks
+if "Dec2022" in filter_str :
+    from block_list import blocksDec2022 as blocks
 
 plot_dir_name += "_"+filter_str
 
@@ -70,18 +76,18 @@ subtract_telescope = False
 ps = plot_saver(plot_dir(plot_dir_name), size=(600,600), log=False, pdf=True, pdf_log=False)
 
 plot_paths = [ 
-               "Charge/Dut0/ClusterSize/hClusterSize_Dut0"
-              ,"Resolution/Dut0/XResiduals/hXResiduals_Dut0"
-              ,"Resolution/Dut0/YResiduals/hYResiduals_Dut0"
-              ,"Resolution/Dut0/XResiduals/hXResidualsClusterSize1_Dut0"
-              ,"Resolution/Dut0/YResiduals/hYResidualsClusterSize1_Dut0"
-              ,"Resolution/Dut0/XResiduals/hXResidualsClusterSize2_Dut0"
-              ,"Resolution/Dut0/YResiduals/hYResidualsClusterSize2_Dut0"
-              ,"Charge/Dut0/Landau/hLandauClusterSize1_Dut0"
-              ,"Charge/Dut0/Landau/hLandauClusterSize2_Dut0"
-              ,"Charge/Dut0/Landau/hLandauClusterSize3_Dut0"
-              ,"Charge/Dut0/Landau/hLandauClusterSizeUpToMax_Dut0"
-              ,"Efficiency/Dut0/Efficiency/Efficiency_Dut0"
+              # "Charge/Dut0/ClusterSize/hClusterSize_Dut0"
+              #,"Resolution/Dut0/XResiduals/hXResiduals_Dut0"
+              #,"Resolution/Dut0/YResiduals/hYResiduals_Dut0"
+              #,"Resolution/Dut0/XResiduals/hXResidualsClusterSize1_Dut0"
+              #,"Resolution/Dut0/YResiduals/hYResidualsClusterSize1_Dut0"
+              #,"Resolution/Dut0/XResiduals/hXResidualsClusterSize2_Dut0"
+              #,"Resolution/Dut0/YResiduals/hYResidualsClusterSize2_Dut0"
+              #,"Charge/Dut0/Landau/hLandauClusterSize1_Dut0"
+              #,"Charge/Dut0/Landau/hLandauClusterSize2_Dut0"
+              #,"Charge/Dut0/Landau/hLandauClusterSize3_Dut0"
+              #,"Charge/Dut0/Landau/hLandauClusterSizeUpToMax_Dut0"
+              "Efficiency/Dut0/Efficiency/Efficiency_Dut0"
               ,"Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0"
               ,"Efficiency/Dut0/Efficiency/EfficiencyNorm_Dut0"
               ,"Efficiency/Dut0/Efficiency/EfficiencyRefNorm_Dut0"
@@ -145,6 +151,8 @@ for plot_path in plot_paths :
         ordering = ["116"]
     elif "Dec2021" in filter_str :
         ordering = ["114","116"]
+    elif filter_str == "QuadCROC_bias_scans_Dec2022" :
+        ordering = ["QuadCROC"]
 
     largest_duplicate = 0
     sorted_blocks = []
@@ -170,6 +178,8 @@ for plot_path in plot_paths :
                     if block.sensor_name != "114" : continue
                 if filter_str == "MJ116_bias_scans_Dec2021" :
                     if block.sensor_name != "116" : continue
+                if filter_str == "QuadCROC_bias_scans_Dec2022" :
+                    if block.sensor_name != "QuadCROC" : continue
                 #if block.angle > 8 : continue
 
                 fpath = os.path.expanduser(basepath+block.run_range+".root") # to expand the ~
@@ -223,6 +233,8 @@ for plot_path in plot_paths :
         if "bias_scans_Dec2021" in filter_str :
             if   sensor == "114" : sensor_name_for_legend += " (1650e)"
             elif sensor == "116" : sensor_name_for_legend += " (2100e)"
+
+        print nbins, sensor_name_for_legend, out_hist_name
 
         out_hist = ROOT.TH1F(out_hist_name, sensor_name_for_legend, nbins, 0, nbins)
         if scan_type == "angle"  : out_hist.GetXaxis().SetTitle("angle (#circ)")

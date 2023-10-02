@@ -33,6 +33,7 @@ def get_sensor_info(sensor) :
     if sensor == "IT1" : return "50x50",  "FBK slimedge 200"
     if "IT5irrad" in sensor : return "50x50",  "FBK slimedge 100"
     if sensor == "502" : return "100x25",  "FBK planar EXT02"
+    if sensor == "QuadCROC" : return "100x25",  "QuadCROC"
 
     return None,None
 
