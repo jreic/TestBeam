@@ -25,9 +25,10 @@ def plot_dir(x='', make=False, temp=False):
         d = '/publicweb/%s/%s/TFPX' % (username[0],username)
         if not os.path.isdir(d) :
             d = '~/nobackup/Chewie_plots/'
-        #d = '~/nobackup/copy_to_classe'
     elif 'classe.cornell.edu' in hostname :
         d = '~/public_html/TFPX'
+    else :
+        d = './'
     if d:
         x = os.path.join(d,x)
     else:
