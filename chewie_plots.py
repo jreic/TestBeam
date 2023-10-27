@@ -255,6 +255,7 @@ for plot_path in plot_paths :
             eff_text      = ROOT.TText(0.84, 1.0,  "{eff:.4f}%".format(eff=eff*100))
             err_up_text   = ROOT.TText(1.086, 1.06, "+{err:.4f}%".format(err=abs_err_up*100))
             err_down_text = ROOT.TText(1.1, 0.96, "-{err:.4f}%".format(err=abs_err_down*100))
+            h.SetBinError(1, max(abs_err_down, abs_err_up)) # note! this is an approximation where we assume the up and down errors to be the same. probably need a TGraphAsymError in the long run...
             h.Draw("AXIS")
             eff_text.Draw("same")
             err_up_text.Draw("same")
