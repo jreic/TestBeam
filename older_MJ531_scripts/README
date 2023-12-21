@@ -1,0 +1,5 @@
+These took my chewie_plots.py outputs, and extracted info from the plots to make summary plots. I later refactored these to directly extract from ChewieOutput files to make summary plots, which was a bit more robust. These refactored scripts are
+
+formatted_angle_scan_MJ531_overlay.py
+formatted_bias_scan_eff_MJ531_overlay.py
+

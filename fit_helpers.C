@@ -3,6 +3,8 @@
 #include "TROOT.h"
 #include "TStyle.h"
 #include "TMath.h"
+#include "Math/DistFunc.h"
+
 
 
 //-----------------------------------------------------------------------
@@ -116,13 +118,14 @@ TF1* langausFit(TH1F* histo)
 // gaus + pol0 fit for residuals of size 2 
 // (where pol0 models misalignment)
 //-----------------------------------------------------------------------
-TF1* fitGausPol0(TH1F* histo)
+TF1* fitGausPol0(TH1F* histo, float fitwidth)
 {
-  //float fitwidth = 2.0; // 2 sigma might be overkill since it starts to capture the tails?
-  //float fitwidth = 1.25; // 1.25 sigma is ~80% of events, so we can ignore just the tails
-  float fitwidth = 1.65; // 1.65 sigma is ~90% of events, so it's a happy medium for the above...
-  float lower = histo->GetMean()-fitwidth*histo->GetStdDev();
-  float upper = histo->GetMean()+fitwidth*histo->GetStdDev();
+  //float fitwidth = 2.0*histo->GetStdDev(); // 2 sigma might be overkill since it starts to capture the tails
+  //float fitwidth = 1.25*histo->GetStdDev(); // 1.25 sigma is ~80% of events, so we can ignore just the tails
+  //float fitwidth = 1.65*histo->GetStdDev(); // 1.65 sigma is ~90% of events, so it's a happy medium for the above
+
+  float lower = histo->GetMean()-fitwidth;
+  float upper = histo->GetMean()+fitwidth;
 
   TAxis* xAxis           ;
   double range           ;
@@ -177,3 +180,4 @@ TF1* fitGausPol0(TH1F* histo)
 
   return gauspol0_;
 }
+
