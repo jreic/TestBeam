@@ -165,3 +165,9 @@ for plot_path in plot_paths :
 
     ps.update_canvas()
     ps.save(plot_name)
+
+printout = "\nDone! Outputs are at %s" % ps.plot_dir
+if ps.plot_dir.startswith('/publicweb/') :
+    httpdir = "https://home.fnal.gov/~" + ps.plot_dir[len("/publicweb/*/"):]
+    printout += " (%s)" % httpdir
+print(printout)
