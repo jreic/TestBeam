@@ -175,7 +175,7 @@ for plot_path in plot_paths :
         graph = ROOT.TGraphAsymmErrors(len(x),x,y,exl,exh,eyl,eyh)
         is0deg = (files == files0deg)
 
-        graph.SetTitle("CNM, 1.#color[2]{4}#times10^{16} n_{eq}/cm^{2}, " + ("1200e, turn = 0#circ" if is0deg else "1600e, turn = 10#circ"))
+        graph.SetTitle("CNM, 1.2#times10^{16} n_{eq}/cm^{2}, " + ("1200e, turn = 0#circ" if is0deg else "1600e, turn = 10#circ"))
         graph.SetLineColor(ROOT.kBlack if is0deg else ROOT.kRed)
         graph.SetMarkerColor(ROOT.kBlack if is0deg else ROOT.kRed)
         graph.SetMarkerStyle(20 if is0deg else 24)
@@ -220,6 +220,12 @@ for plot_path in plot_paths :
     if "Efficiency" in plot_name :
         leg = ROOT.gPad.BuildLegend(0.35, 0.3, 0.9, 0.45)
         leg.SetBorderSize(0)
+
+        line = ROOT.TLine()
+        line.SetLineStyle(2)
+        line.DrawLine(xmin, 97, xmax, 97)
+        leg.AddEntry(line, "97% efficiency line", "l")
+
     elif "Landau" in plot_name :
         leg = ROOT.gPad.BuildLegend(0.15, 0.79, 0.7, 0.94)
         leg.SetBorderSize(0)
