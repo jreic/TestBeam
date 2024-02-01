@@ -200,7 +200,7 @@ for plot_path in plot_paths :
             h.GetYaxis().SetTitle("row")
         h.SetStats(0)
 
-        if ("ResidualsCell" in plot_name) :
+        if ("Residuals" in plot_name and "Cell" in plot_name) :
             h.SetMinimum(-10)
             h.SetMaximum(10)
             h.Draw("colz1") # colz1 draws empty bins in white rather than using the z=0 color, when allowing the z-axis to go negative
