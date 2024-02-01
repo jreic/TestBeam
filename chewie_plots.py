@@ -187,9 +187,6 @@ for plot_path in plot_paths :
             h.SetMinimum(0)
             h.SetMaximum(1.0)
             pass
-    elif ("ResidualsCell" in plot_name) :
-        h.SetMinimum(-10)
-        h.SetMaximum(10)
 
     # Plot TH2's with colz and no stat box
     if issubclass(type(h), ROOT.TH2) :
@@ -202,7 +199,13 @@ for plot_path in plot_paths :
             h.GetXaxis().SetTitle("col")
             h.GetYaxis().SetTitle("row")
         h.SetStats(0)
-        h.Draw("colz1") # colz1 draws empty bins in white rather than using the z=0 color, when allowing the z-axis to go negative
+
+        if ("ResidualsCell" in plot_name) :
+            h.SetMinimum(-10)
+            h.SetMaximum(10)
+            h.Draw("colz1") # colz1 draws empty bins in white rather than using the z=0 color, when allowing the z-axis to go negative
+        else :
+            h.Draw("colz")
 
     else :
         ps.c.SetMargin(0.1,0.1,0.1,0.1)
