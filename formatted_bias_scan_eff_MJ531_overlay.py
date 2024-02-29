@@ -16,8 +16,8 @@ ps.update_canvas()
 
 plot_paths = [] 
 plot_paths.append("Efficiency/Dut0/Efficiency/Efficiency_Dut0")
-plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0")
-plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpToMax_Dut0")
+#plot_paths.append("Efficiency/Dut0/Efficiency/EfficiencyRef_Dut0")
+#plot_paths.append("Charge/Dut0/Landau/hLandauClusterSizeUpToMax_Dut0")
 
 # Adapter card had 11kOhm total according to https://docs.google.com/document/d/1xQe5dZbrX8M0AEe-T-NlyIX6yhK-nU5i73rB3I9S3rc/edit, so V_sensor = V_supply - 11kOhm * leakage current in microamps
 #
@@ -120,6 +120,10 @@ for plot_path in plot_paths :
         eyl = []
         eyh = []
 
+        is0deg = (files == files0deg)
+        print "bias scan " + ("0 deg" if is0deg else "10deg")
+        print "voltage, voltage_err, efficiency, efficiency_err_down, efficiency_err_up"
+
         for index in xrange(0,len(files)) :
             f = files[index]
             h = f.Get(plot_path)
@@ -134,6 +138,7 @@ for plot_path in plot_paths :
 
                 voltage = labels[index_dataset][index]
 
+                print "%s, 0, %s, %s, %s" % (voltage, eff*100, abs_err_down*100, abs_err_up*100)
                 x.append(voltage)
                 y.append(eff*100)
                 exl.append(0)
@@ -173,7 +178,6 @@ for plot_path in plot_paths :
         if len(x) == 0 : continue
 
         graph = ROOT.TGraphAsymmErrors(len(x),x,y,exl,exh,eyl,eyh)
-        is0deg = (files == files0deg)
 
         graph.SetTitle("CNM, 1.2#times10^{16} n_{eq}/cm^{2}, " + ("1200e, turn = 0#circ" if is0deg else "1600e, turn = 10#circ"))
         graph.SetLineColor(ROOT.kBlack if is0deg else ROOT.kRed)

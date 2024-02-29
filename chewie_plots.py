@@ -221,7 +221,8 @@ for plot_path in plot_paths :
         elif "Predicted" in plot_name and "Errors" in plot_name :
             h.GetXaxis().SetRangeUser(3, 6)
             h.Draw()
-        elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
+        elif ("Residuals" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
+        #elif ("ResidualsClusterSize2" in plot_name or "ResidualCalculatedSize2" in plot_name or "Digital" in plot_name) and h.GetEntries() > 0 :
             if zoom_residuals_size_2 :
                 ROOT.gStyle.SetOptTitle(0)
                 h.Scale(1./h.Integral())

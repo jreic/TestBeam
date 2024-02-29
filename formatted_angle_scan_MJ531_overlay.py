@@ -9,13 +9,13 @@ ROOT.gROOT.ProcessLine(".L fit_helpers.C+")
 ROOT.gErrorIgnoreLevel = ROOT.kWarning
 
 
-ps = plot_saver(plot_dir("formatted_angle_scan_MJ531_overlay_cosine"), size=(600,600), log=False, pdf=True)
+ps = plot_saver(plot_dir("formatted_angle_scan_MJ531_spill_by_spill"), size=(600,600), log=False, pdf=True)
 ps.c.SetLeftMargin(0.1)
 ps.c.SetTopMargin(0.05)
 ps.c.SetRightMargin(0.05)
 ps.update_canvas()
 
-ps2 = plot_saver(plot_dir("formatted_angle_scan_MJ531_overlay_cosine_supporting_plots"), size=(600,600), log=False, pdf=True)
+ps2 = plot_saver(plot_dir("formatted_angle_scan_MJ531_spill_by_spill_supporting_plots"), size=(600,600), log=False, pdf=True)
 ps2.c.SetLeftMargin(0.1)
 ps2.c.SetTopMargin(0.05)
 ps2.c.SetRightMargin(0.05)
@@ -26,17 +26,19 @@ plot_paths.append("Resolution/Dut0/YResiduals/hYResiduals_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsClusterSize1_Dut0")
 plot_paths.append("Resolution/Dut0/YResiduals/hYResidualsClusterSize2_Dut0")
 
+additional_syst = 0.45 # microns, based on largest statistically meaningful (i.e. start one sigma closer on the stat err)  post-telescope-subtraction variation within a run block
 
 for plot_path in plot_paths :
     plot_name = plot_path.split("/")[-1]
 
-    fpath0deg   = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46657_46667.root"
-    fpath4deg   = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46668_46675.root"
-    fpath8deg   = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46676_46682.root"
-    fpath10deg  = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46683_46690.root"
-    fpath12deg  = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46691_46697.root"
-    fpath16deg  = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46698_46704.root"
-    fpath20deg  = "/uscms/home/joeyr/nobackup/MJ531_studies_for_paper/ChewieOutput_blocks_realign_angle_scan/Chewie_Runs46705_46711.root"
+    fpath0deg   = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46712_46715.root"
+    #fpath0deg   = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46657_46666.root"
+    fpath4deg   = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46668_46675.root"
+    fpath8deg   = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46676_46682.root"
+    fpath10deg  = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46683_46690.root"
+    fpath12deg  = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46691_46697.root"
+    fpath16deg  = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46698_46704.root"
+    fpath20deg  = "/uscms/home/joeyr/nobackup/realign_MJ531_spill_by_spill/Chewie_Runs46705_46711.root"
 
     files_anglescan = [ ROOT.TFile(fpath0deg)
             , ROOT.TFile(fpath4deg)
@@ -65,8 +67,12 @@ for plot_path in plot_paths :
         eyl = []
         eyh = []
 
+        print "angle scan"
+        print "angle, angle_err, residual, residual_err"
+
         for index in xrange(0,len(files)) :
             f = files[index]
+            print f.GetName()
             angle = labels[index_dataset][index]
             
             # use a plot saver instance to save all of the relevant plots
@@ -77,6 +83,10 @@ for plot_path in plot_paths :
             h.SetName(plot_name.replace("_Dut0","") + " %s#circ" % str(angle))
             gauspol0 = ROOT.fitGausPol0(h, 1.65*h.GetStdDev())
             fit = h.Fit(gauspol0, "RBLSQ")
+
+            chi2 = fit.Chi2()
+            ndf = fit.Ndf()
+            print angle, "deg, chi2/ndf = ", chi2/ndf
 
             # make plots only for the nominal
             ps2.update_canvas()
@@ -96,6 +106,7 @@ for plot_path in plot_paths :
             residual_2RMS = fit_2RMS.Parameter(2)
 
             err_syst = max( abs(residual - residual_1p5RMS), abs(residual - residual_2RMS) )
+            err_syst = math.sqrt(err_syst**2 + additional_syst**2)
             err = math.sqrt(err_stat**2 + err_syst**2)
 
             # Subtract off the telescope resolution!
@@ -136,6 +147,7 @@ for plot_path in plot_paths :
             elif "YResiduals" in plot_name :
                 residual = math.sqrt( residual**2 - xtele**2 )
 
+            print "%s, 1, %s, %s" % (angle, residual, err)
             x.append(angle)
             y.append(residual)
             exl.append(1)
@@ -159,7 +171,8 @@ for plot_path in plot_paths :
         graph.SetFillColor(0)
 
         if "Residual" in plot_name :
-            xmin = 0
+            xmin = -1
+            #xmin = 0
             xmax = 22
             ymin = 4
             ymax = 10
